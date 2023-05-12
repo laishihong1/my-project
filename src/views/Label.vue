@@ -7,18 +7,12 @@
             <div class="grid-content bg-purple-dark">
               <div  class="title1">
                 <el-row>
-                  <el-col :span="6"><div class="grid-content bg-purple"><dv-border-box-10 ><p>{{this.nowYear}}</p></dv-border-box-10></div></el-col>
-                  <el-col :span="12"><div class="grid-content bg-purple-light"> <dv-decoration-11 style="width:412px;height:79px;left:18%; position: relative;font-size:50px;color:#27dae6">通讯录数字平台</dv-decoration-11> </div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple"><dv-border-box-10 ><p>{{this.nowTime}}</p></dv-border-box-10></div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple"><p>{{this.nowYear}}</p><dv-decoration-8 style="width:300px;height:50px;" :color="['#008cff', '#008cff']"/></div></el-col>
+                  <el-col :span="12"><div class="grid-content bg-purple-light"><p>通讯管理平台</p><dv-decoration-5/></div></el-col>
+                  <el-col :span="6"><div class="grid-content bg-purple"><p>{{this.nowTime}}</p><dv-decoration-8 :reverse="true" style="width:322px;height:50px;" :color="['#008cff', '#008cff']"/></div></el-col>
                 </el-row>
               </div>
-              <div class="title2">
-                <el-row>
-                  <el-col :span="6"><div class="grid-content bg-purple"><dv-decoration-6 style="width:330px;height:30px;" /></div></el-col>
-                  <el-col :span="12"><div class="grid-content bg-purple-light" ><dv-decoration-5 style="width:400px;height:50px;left:19%; position: relative;" /></div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple"><dv-decoration-6 style="width:330px;height:30px;" /></div></el-col>
-                </el-row>
-              </div>
+            
             </div>
             </el-col>
          </el-row>
@@ -26,8 +20,9 @@
          <el-row class="content">
               <el-col :span="6">
                 <div class="grid-content bg-purple content-left">
+                   <div><dv-border-box-13 style="width:100%;height:100%;"><div style="height:10%;"></div><div  style="height:90%;"> <line-table1 style="width:100%;height:100%;"></line-table1> </div></dv-border-box-13></div>
                    <div><dv-border-box-13 style="width:100%;height:100%;"></dv-border-box-13></div>
-                   <div style="height:325px;"><dv-border-box-13  style="width:100%;height:100%;"><line-table1  style="width:100%;height:100%;"></line-table1></dv-border-box-13></div>
+                   <div><dv-border-box-13 style="width:100%;height:100%;"></dv-border-box-13></div>
                 </div></el-col>
               <el-col :span="12">
                 <div class="grid-content bg-purple-light content-center">
@@ -39,8 +34,10 @@
                          <div class="map2"></div>
                          <div class="map3"></div>
                          <div class="map4"><maps></maps></div>
+                        <div class="line"><dv-border-box-8  style="width:100%;height:100%;">dv-border-box-12</dv-border-box-8></div>
                     </div>
                 </div>
+                   
                 </el-col>
               <el-col :span="6">
                 <div class="grid-content bg-purple content-right">
@@ -137,7 +134,7 @@
     background-size: 100%;
    }
    .header{
-       height: 15vh;
+       height: 5vh;
       
         div{
         height: 100%;
@@ -145,33 +142,50 @@
       .title1{
         height: 50%;
         p{
+           position: relative;
            height: 100%;
            width: 100%;
-           font-size: 440%;
+           font-size: 120%;
            text-align:center;
+           left: 1%;
+           letter-spacing: 11px;
            font-family:'electronicFont';
            color: #99def9;
         }
+        .dv-decoration-8{
+          position: relative;
+           top:-100%;
+        }
+        .dv-decoration-5{
+           width:300px;
+           height:32px;
+           position: relative;
+           left: 27%;
+           top:-50%;
+        }
       }
-      .title2{
-         height: 50%;
-      }
+    
    }
    .content{
-       height: 85vh;
-    
+       height: 95vh;
        .content-left,.content-right{
-         
+           box-sizing: border-box;
         div{
           z-index: 1;
           position: relative;
           display: inline-block;
            width: 95%;
-           height:16%;
-           margin: 4px;
+           height:20%;
+           margin-left: 2px;
            padding: 0;
-          
+           box-sizing: border-box;
         }
+       }
+       .content-right{
+          div{
+            margin-bottom: 1%;
+            margin-left:5px ;
+          }
        }
    }
     .el-row { 
@@ -180,15 +194,13 @@
     }
   }
    .bg-purple {
-
      height:100vh;
-    
   }
   .bg-purple-light {
       height: 100vh;
      .numberDisplay{
        position: relative;
-       top:-5%;
+      
        height: 15%;
          div{
             position:relative;
@@ -204,7 +216,6 @@
      }
      .map{
          height: 85%;
-         top:-4%;
          position: relative;
          .map1{
               z-index:1;
@@ -250,7 +261,15 @@
                   height: 45%;
                   z-index: 5;
               }
+               .line{
+                  width: 98%;
+                  height: 15%;
+                  top:38.2%;
+                  display: inline-block;
+                  position: relative;
+              }
          }
+     
 }
  
   .grid-content {
