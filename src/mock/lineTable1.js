@@ -4,7 +4,6 @@ const Mock=require('mockjs')
      const Array=[]
     for (let index = 0; index < 10; index++) {
         Array[index]=Mock.mock({
-             'color':Mock.Random.hex(),
              'province':Mock.Random.province(),
              'replyPeople':Mock.Random.natural( 1000, 10000 ),
              'onLinePeople':Mock.Random.natural( 10000, 50000 ),

@@ -1,98 +1,79 @@
 <template>
-    <div class="lineTable1" ref="lineTable1"></div>
+    <div>
+        <el-row>
+             <el-col :span="24"><div class="grid-content bg-purple-dark bar1" ref="bar1"></div></el-col>
+        </el-row>
+    </div>
 </template>
-//排名Top10在线人数排名
+
 <script>
-    export default {
-           data() {
-            return {
-                color:[],
-                province:[],
-                onLinePeople:[],
-                replyPeople:[],
-                total:[],
-                sorts:[]
-            };
-           }, 
-           mounted(){
-                 this.init()
-           },
-           methods:{
-                   init(){
-                        this.$axios.get("http://localhost:8080/text/lineTable1").then(res=>{
-                                 
-                                const data=Object.values(res.data)
-                              
-                                this.province= data.map((i) => {
-                                return i.province;
-                                });
-                                 
-                                 this.onLinePeople= data.map((i) => {
-                                 return i.onLinePeople;
-                                 });
-
-                                 this.replyPeople= data.map((i) => {
-                                 return i.replyPeople;
-                                 });
-                                 
-                                 this.total=data.map((i)=>{
-                                     return i.totalPeople
-                                 })
-                                 
-                                 this.color=data.map((i)=>{
-                                     return i.color
-                                 })
-
-                                this.sort(this.onLinePeople,this.replyPeople)
-
-                                console.log(this.sorts)
-
-                                var myChart=this.$echarts.init(this.$refs.lineTable1)
-                                window.onresize = myChart.resize;
-                                var myColor =this.color
-                                
- var myColor = ['#8aaafb']
-  var option = {
- 
-    grid: {
-        left: '12.5%',
-        top: '10%',
-        bottom: '-5%',
-        right:'-5%',
-        containLabel: true
+export default {
+   
+    data() {
+        return {
+                province:[],     //省份
+                onlineSort:[],   //各省在线人数比率
+                datas:[],
+               
+        }
     },
-    xAxis: [{
-        show: false,
-    }],
-    yAxis: [{
-        axisTick: 'none',
-        axisLine: 'none',
-        offset: '27',
-        axisLabel: {
-            textStyle: {
-                color: '#ffffff',
-                fontSize: '10',
+    mounted(){
+        this.init()
+    },
+    methods:{
+       init(){
+        this.$axios.get("http://localhost:8080/text/lineTable1").then(res=>{
+             const data = Object.values(res.data)
+        
+            for (const i in data) {
+                 this.datas[i]=data[i]
             }
-        },
-        data:this.province
+             
+              //调用函数rate 计算各省份 在线人数比率
+              this.rate()  
+              //省份
+              this.province=this.datas.map((i)=>{
+                return i.province
+              }) 
+           
+           var myChart=this.$echarts.init(this.$refs.bar1)  
+           
+           var myColor = ['#eb2100', '#eb3600', '#d0570e', '#d0a00e', '#34da62', '#00e9db', '#00c0e9', '#0096f3', '#33CCFF', '#33FFCC'];
+           var option={
+            grid: {
+                left: -'1.25rem',
+                top: -'1px',
+                right: '0%',
+                bottom: '0%',
+                width:'90%',
+                height:'90%',
+                containLabel: true
+             },
+             xAxis: [{
+                 show: false,
+             }],
+             yAxis: [{
+                axisTick: 'none',
+                axisLine: 'none',
+                offset: this.fontSize(25),
+                axisLabel: {
+                    textStyle: {
+                        color: '#ffffff',
+                        fontSize: this.fontSize(8),
+                     }
+                 },
+         data: this.province
     }, {
         axisTick: 'none',
         axisLine: 'none',
         axisLabel: {
             textStyle: {
                 color: '#ffffff',
-                fontSize: '10',
+                fontSize: this.fontSize(7),
             }
         },
         data: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
     }, {
-        name: '在线统计TOP10',
-        nameGap: '50',
-        top:'-10%',
-        nameTextStyle: {
-            color: '#ffffff',
-            fontSize: '50',
-        },
         axisLine: {
             lineStyle: {
                 color: 'rgba(0,0,0,0)'
@@ -103,20 +84,19 @@
     series: [{
             name: '条',
             type: 'bar',
-         
             yAxisIndex: 0,
-            data: this.sorts,
+            data: this.onlineSort,
             label: {
                 normal: {
                     show: true,
                     position: 'right',
                     textStyle: {
                         color: '#ffffff',
-                        fontSize: '10',
+                        fontSize: this.fontSize(8),
                     }
                 }
             },
-            barWidth: 5,
+            barWidth: this.fontSize(6),
             itemStyle: {
                 normal: {
                     color: function(params) {
@@ -130,9 +110,10 @@
             name: '白框',
             type: 'bar',
             yAxisIndex: 1,
-            barGap: '-100%',
+            barGap: '100%',
+           
             data: [99, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5],
-            barWidth: 10,
+            barWidth: this.fontSize(8.5),
             itemStyle: {
                 normal: {
                     color: '#0e2147',
@@ -144,10 +125,10 @@
             name: '外框',
             type: 'bar',
             yAxisIndex: 2,
-            barGap: '-100%',
-            left:'-10%',
+            barGap: '100%',
+            
             data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-            barWidth: 13,
+            barWidth: this.fontSize(11),
             itemStyle: {
                 normal: {
                     color: function(params) {
@@ -165,7 +146,7 @@
             hoverAnimation: false,
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             yAxisIndex: 2,
-            symbolSize: 13,
+            symbolSize: this.fontSize(10),
             itemStyle: {
                 normal: {
                     color: function(params) {
@@ -178,21 +159,65 @@
             z: 2
         }
     ]
-};
+           }
+           myChart.setOption(option);
+           window.addEventListener("resize", () => {
+           this.myChart.resize;
+      });
+        })
+        
+       },
 
-                               myChart.setOption(option)
-       })
-    },
-      sort:function(array1,array2){
-          for(var i=0;i<array1.length;i++){
-            this.sorts[i]=Math.ceil((array1[i]+array2[i])/this.total[i]*100)
+        rate:function(){
+
+          for(var i=0;i<this.datas.length;i++){
+             this.onlineSort[i]=Math.ceil((this.datas[i].onLinePeople+this.datas[i].replyPeople)/this.datas[i].totalPeople*100);
           }
-     }
-    
- }
+
+           for(var j=0;j<this.datas.length;j++){
+            for(var k=j;k>0;k--){
+                if(this.onlineSort[k]<this.onlineSort[k-1]){
+
+                     var temp=this.onlineSort[k];
+                     this.onlineSort[k]=this.onlineSort[k-1];
+                     this.onlineSort[k-1]=temp;
+
+                     var temps=this.datas[k];
+                     this.datas[k]=this.datas[k-1];
+                     this.datas[k-1]=temps;
+                }
+            }
+           }
+                   
+       },
+    //    计算响应式屏幕占比
+       fontSize:function(res){
+        let docEl = document.documentElement,
+            clientWidth =
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+        if (!clientWidth) return;
+      
+        let fontSize = clientWidth / 2600;
+        return res * fontSize;
+
+      },
+       beforeDestroy() {
+          window.removeEventListener("resize", () => {
+           this.myChart.resize
+         })
+       },
+    }
 }
 </script>
-
+   
 <style lang="less" scoped>
-    
+     .bar1{
+        position: absolute;
+        top: -0.625rem;
+        height:3.40rem;
+        width:100%;
+     }
 </style>
+

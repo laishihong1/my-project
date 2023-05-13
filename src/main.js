@@ -33,6 +33,9 @@ Vue.prototype.$axios = axios;
 import {borderBox5,borderBox6,borderBox9,borderBox10,borderBox11,borderBox12,borderBox13} from '@jiaminghi/data-view'
 Vue.use(borderBox5,borderBox6,borderBox9,borderBox10,borderBox11,borderBox12,borderBox13)
 
+//引用flexible
+import 'lib-flexible/flexible.js'
+
 //创建全局前置守护导航
 router.beforeEach((to, from, next) => {
    

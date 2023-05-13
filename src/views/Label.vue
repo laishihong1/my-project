@@ -1,54 +1,83 @@
 <template>
-   <div>
+   <div style="overflow:hidden;">
+     <!-- 背景 -->
      <dv-full-screen-container>
-      <!-- //header头 -->
-         <el-row class="header">
-           <el-col :span="24">
-            <div class="grid-content bg-purple-dark">
-              <div  class="title1">
-                <el-row>
-                  <el-col :span="6"><div class="grid-content bg-purple"><p>{{this.nowYear}}</p><dv-decoration-8 style="width:300px;height:50px;" :color="['#008cff', '#008cff']"/></div></el-col>
-                  <el-col :span="12"><div class="grid-content bg-purple-light"><p>通讯管理平台</p><dv-decoration-5/></div></el-col>
-                  <el-col :span="6"><div class="grid-content bg-purple"><p>{{this.nowTime}}</p><dv-decoration-8 :reverse="true" style="width:322px;height:50px;" :color="['#008cff', '#008cff']"/></div></el-col>
-                </el-row>
-              </div>
-            
-            </div>
-            </el-col>
-         </el-row>
-       <!-- //内容区域 -->
-         <el-row class="content">
-              <el-col :span="6">
-                <div class="grid-content bg-purple content-left">
-                   <div><dv-border-box-13 style="width:100%;height:100%;"><div style="height:10%;"></div><div  style="height:90%;"> <line-table1 style="width:100%;height:100%;"></line-table1> </div></dv-border-box-13></div>
-                   <div><dv-border-box-13 style="width:100%;height:100%;"></dv-border-box-13></div>
-                   <div><dv-border-box-13 style="width:100%;height:100%;"></dv-border-box-13></div>
-                </div></el-col>
-              <el-col :span="12">
-                <div class="grid-content bg-purple-light content-center">
-                    <div class="numberDisplay">
-                      <div><dv-border-box-11 title="当前在线统计" style="text-align:center;"><p style="position:relative;top:45%;letter-spacing:35px;text-indent:35px;">123456789</p></dv-border-box-11></div>
-                    </div>
-                    <div class="map">
-                         <div class="map1"></div>
-                         <div class="map2"></div>
-                         <div class="map3"></div>
-                         <div class="map4"><maps></maps></div>
-                        <div class="line"><dv-border-box-8  style="width:100%;height:100%;">dv-border-box-12</dv-border-box-8></div>
+      
+      <el-container>
+        <!-- 头部 -->
+          <el-header class="header" style="height:1.25rem;">
+            <h1>通讯录管理平台</h1>
+           <div class="showTime">当前时间：{{ this.nowYear }}&nbsp;{{this.nowTime }}</div>
+          </el-header>
+        <!-- 页面主体部分 -->
+          <el-main class="mainbox">
+          
+              <el-col :span="6"  class="column">
+                  <div class="grid-content bg-purple ">
+                <div class="panel">
+                <h2>在线人数比率拍名</h2>
+                <div class="chart">
+                  <lineTable1></lineTable1>
+                </div>
+                <div class="panel-footer"></div>
+                </div>
+                <div class="panel bar">
+                <h2>111111</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+                </div>
+                <div class="panel bar">
+                <h2>111111</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+                </div>
+              </div></el-col>
+              <el-col :span="12" class="column"><div class="grid-content bg-purple-light ">
+                <div class="no">
+                  <div class="no-hd"><ul>
+                    <li>2222</li>
+                    <dv-decoration-4 style="width:5px;height:1rem;" />
+                    <li>2222</li>
+                  </ul></div>
+                  <div class="no-bd">
+                    <ul>
+                      <li>当前在线人数统计</li>
+                      <li>注册总人数统计</li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- 地图模块 -->
+                <div class="map">
+                    <div class="map1"></div>
+                    <div class="map2"></div>
+                    <div class="map3"></div>
+                    <div class="chart">
+                      <maps class="maps"></maps>
                     </div>
                 </div>
-                   
-                </el-col>
-              <el-col :span="6">
-                <div class="grid-content bg-purple content-right">
-                  <div ><dv-border-box-12 style="width:100%;height:100%">dv-border-box-9</dv-border-box-12></div>
-                  <div ><dv-border-box-12 style="width:100%;height:100%;">dv-border-box-9</dv-border-box-12></div>
-                  <div ><dv-border-box-12 style="width:100%;height:100%;">dv-border-box-9</dv-border-box-12></div>
+              </div></el-col>
+              <el-col :span="6"  class="column"><div class="grid-content bg-purple ">
+                <div class="panel bar">
+                <h2>111111</h2>
+                <div class="chart">
+                  
                 </div>
-                </el-col>
-         </el-row>
-
-
+                <div class="panel-footer"></div>
+                </div>
+                <div class="panel bar">
+                <h2>111111</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+                </div>
+                <div class="panel bar">
+                <h2>111111</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+                </div>
+              </div></el-col>
+           
+          </el-main>
+      </el-container>
     </dv-full-screen-container>
    </div>
   
@@ -58,13 +87,28 @@
 <script>
      import lineTable1 from '@/components/echart/Label/lineTable1'
      import maps from '@/components/echart/Label/maps'
-    export default {
+     var $ = require("jquery");
+     $(document).ready(function(){
+         //初始设置
+         var mastheadHeight=$('#assitImg').css('height');
+	$('.masthead').css('height',mastheadHeight);
+	//背景图随屏幕大小改变
+	$(window).resize(function(){
+		var mastheadHeight=$('#assitImg').css('height');
+		$('.masthead').css('height',mastheadHeight);
+	});
+	
+})
+
+     export default {
       
         data() {
             return {
                   nowTime: "", // 当前时间
                   nowYear: "", // 当前年份
-                  dialogTableVisible: false
+                  dialogTableVisible: false,
+                  bar:this.$refs.bar1,
+                  
             };
         },
         created(){
@@ -104,14 +148,16 @@
             },
               refresh:function(seconds){
                 setTimeout("self.location.reload()",seconds*1000);
-              } 
+              },
+              
           },
-        beforeDestroy: function() {
+         beforeDestroy: function() {
            if (this.getDate) {
               console.log("销毁定时器");
               clearInterval(this.getDate); // 在Vue实例销毁前，清除时间定时器
-       }
-   },
+         }      
+      },
+      
     components:{
        maps,
        lineTable1
@@ -126,172 +172,243 @@
         font-family:'electronicFont';
         src: url("@/utils/DS-DIGIT.ttf");
    }
+   li{
+    list-style: none;
+   }
    #dv-full-screen-container{
     padding: 0;
     margin: 0;
     z-index: 0;
-    background: url("@/utils/bg1.jpg");
-    background-size: 100%;
-   }
-   .header{
-       height: 5vh;
-      
-        div{
-        height: 100%;
-        }
-      .title1{
-        height: 50%;
-        p{
-           position: relative;
-           height: 100%;
-           width: 100%;
-           font-size: 120%;
-           text-align:center;
-           left: 1%;
-           letter-spacing: 11px;
-           font-family:'electronicFont';
-           color: #99def9;
-        }
-        .dv-decoration-8{
-          position: relative;
-           top:-100%;
-        }
-        .dv-decoration-5{
-           width:300px;
-           height:32px;
-           position: relative;
-           left: 27%;
-           top:-50%;
-        }
+    width: 43rem;
+    height: 18rem;
+    background: url("@/utils/bg1.jpg") no-repeat top center ;
+    background-size:100% 100%;
+     .header{
+      position: relative;
+      background: url("@/utils/head_bg.png") no-repeat;
+      background-size: 100% 100%;
+      h1{
+        color: #fff;
+        line-height: 0.53rem;
+        font-size: .45rem;
+        text-align: center;
       }
-    
-   }
-   .content{
-       height: 95vh;
-       .content-left,.content-right{
-           box-sizing: border-box;
-        div{
-          z-index: 1;
-          position: relative;
-          display: inline-block;
-           width: 95%;
-           height:20%;
-           margin-left: 2px;
-           padding: 0;
-           box-sizing: border-box;
-        }
-       }
-       .content-right{
-          div{
-            margin-bottom: 1%;
-            margin-left:5px ;
-          }
-       }
-   }
-    .el-row { 
-    &:last-child {
-      margin-bottom: 0;
+      .showTime{
+          position: absolute;
+          right: 30px;
+          line-height:.9375rem;
+          color: rgba(255, 255, 255, .7);
+          font-size: 20px;
+          top:0;
+          font-family:'electronicFont';
+      }
     }
-  }
-   .bg-purple {
-     height:100vh;
-  }
-  .bg-purple-light {
-      height: 100vh;
-     .numberDisplay{
-       position: relative;
-      
-       height: 15%;
-         div{
-            position:relative;
-            width: 98%;
-            height: 93%;
-            left:1%;
-            top:3%;
-            font-size: 190%;
-            font-family:'electronicFont';
-            color: #f4f2f2; 
-          
-         }
-     }
-     .map{
-         height: 85%;
-         position: relative;
-         .map1{
-              z-index:1;
-              position: absolute;
-              padding: 0;
-              margin: 0;
-              width: 98%;
-              height: 90%;
-              background: url('@/utils/map.png') 50% 10%  no-repeat;
-              background-size:50% ;
-              display: inline-block;
-              opacity: .3;
-              }
-            .map2{
-                display: inline-block;
-                position:absolute;
-                background: url('@/utils/jt.png') 50% 60%  no-repeat;
-                background-size:55% ;
-                display: inline-block;
-                z-index: 2;
-                width: 100%;
-                height: 50%;
-                opacity: 1;
-               
-                animation: rotate1 15s linear infinite reverse;
-               }
-    
-            .map3{
-                position: absolute;
-                display: inline-block;
-                width: 98%;
-                height: 45%;
-                background: url('@/utils/lbx.png') 50% 60%  no-repeat;
-                background-size:62% ;
-                z-index: 3;
-                animation: rotate 60s linear infinite reverse;
-                opacity: .4;
-              }
-              .map4{
-                  position: absolute;
-                  display: inline-block;
-                  width: 98%;
-                  height: 45%;
-                  z-index: 5;
-              }
-               .line{
-                  width: 98%;
-                  height: 15%;
-                  top:38.2%;
-                  display: inline-block;
-                  position: relative;
-              }
-         }
-     
-}
- 
-  .grid-content {
+   }
    
-    min-height: 36px;
-  }
-  .row-bg {
-   padding: 10px 0;
- 
-  }
-  
-  @keyframes rotate1 {
-     from{
-           
-            rotate: 0deg
-             
+  //  页面主体盒子
+     .mainbox{
+        display: flex;
+        min-width: 24rem;
+        max-width: 40.25rem /* 3220/16 */;
+        min-height: 13.5rem;
+        max-height: 18rem;
+        margin:0;
+        //background-color: aqua;
+        padding:0.125rem 0.125rem 0;
+        .column{
+          flex: 3;
         }
-     to{
-       
-            rotate: 360deg;
+        .column:nth-child(2){
+          flex: 5;
+          margin: 0 .125rem .1875rem;
+        }
+        .panel{ 
+                position: relative;
+                padding: 0 .1875rem .5rem;
+                margin-bottom: 0.275rem;
+                height: 3.14rem;
+                border: 1px solid rgba(255, 186,139,0.17);
+                background: url("@/utils/line.png");
+                background-color: rgba(255,255,255,.03);
+                &::before{
+                   position: absolute;
+                   top:0;
+                   left: 0;
+                   width:10px;
+                   height: 10px;
+                   border-left: 2px solid #02a6b5;
+                   border-top:  2px solid #02a6b5 ;
+                   content: "";
+                }
+                &::after{
+                   position: absolute;
+                   top:0;
+                   right: 0;
+                   width:10px;
+                   height: 10px;
+                   border-right: 2px solid #02a6b5;
+                   border-top:  2px solid #02a6b5 ;
+                   content: "";
+                }
+                .panel-footer{
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    &::before{
+                   position: absolute;
+                   bottom:0;
+                   left: 0;
+                   width:10px;
+                   height: 10px;
+                   border-left: 2px solid #02a6b5;
+                   border-bottom:  2px solid #02a6b5 ;
+                   content: "";
+                }
+                  &::after{
+                    position: absolute;
+                    bottom:0;
+                    right: 0;
+                    width:10px;
+                    height: 10px;
+                    border-right: 2px solid #02a6b5;
+                    border-bottom:  2px solid #02a6b5 ;
+                    content: "";
+                  }
+                }
+                h2{
+                  height: .6rem;
+                  color: #fff;
+                  line-height: .6rem;
+                  text-align: center;
+                  font-size: 0.25rem;
+                }
+                .chart{
+                   height: 2.5rem;
+                   position: relative;
+                }
+        }
+
+        //数字模块
+        .no{
+                 background: rgba(101,132,226,.1);
+                 padding: .1875rem;
+                 .no-hd{
+                   border: 1px solid rgba(25,186,139,.17);
+                   position: relative;
+                   &::before{
+                     position: absolute;
+                     top:0;
+                     left: 0;
+                     content: "";
+                     width: 30px;
+                     height: 10px;
+                     border-top:  2px solid #02a6b5 ;
+                     border-left: 2px solid #02a6b5;
+                   }
+                   &::after{
+                     position: absolute;
+                     bottom:0;
+                     right: 0;
+                     content: "";
+                     width: 30px;
+                     height: 10px;
+                     border-bottom:  2px solid #02a6b5 ;
+                     border-right: 2px solid #02a6b5;
+                   }
+                   ul{
+                     display: flex;
+                     align-content: space-between;
+                    li{
+                       flex: 1;
+                       line-height: 1rem;
+                       font-size: .875rem;
+                       color: #ffeb7b;
+                       text-align: center;
+                       font-family:'electronicFont';
+                    }
+                     #dv-decoration-4 {
+                      flex: 1;
+                    }
+                   }
+                 }
+                 
+                 .no-bd{
+                    ul{
+                      display: flex;
+                    li{
+                      flex: 1;
+                      text-align: center;
+                      color: rgba(255,255,255,.7);
+                      font-size: 0.225rem;
+                      height: .1rem;
+                      line-height:.5rem;
+                      padding: 0.125rem;
+                    }
+                    }
+                 }
+        }
+      .map{
+        position: relative;
+         height: 10.125rem;
+         .map1{
+           width: 6.475rem;
+           height: 6.475rem;
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           background: url("@/utils/map.png") no-repeat 50% 50%;
+           transform: translate(-50%,-50%);
+           background-size: 100% 100%;
+           opacity: .3;
+         }
+          .map2{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8.0375rem;
+            height: 8.0375rem;
+            background: url("@/utils/lbx.png");
+            transform: translate(-50%,-50%);
+            background-size: 100% 100%;
+            opacity: .5;
+            animation: rotate1 15s linear infinite;
+          }
+          .map3{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 7.075rem;
+            height: 7.075rem;
+            background: url("@/utils/jt.png");
+            transform: translate(-50%,-50%);
+            background-size: 100% 100%;
+            opacity: .5;
+            animation: rotate1 15s reverse linear infinite;
+          }
+          .chart{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10.125rem;
+            .maps{
+              transform: translate(10%,0%);
+            }
+          }
       }
-  }
+
+      }
+  
+       @keyframes rotate1{
+        from{
+          transform: translate(-50%,-50%) rotate(0deg);  
+        }
+        to{
+          transform: translate(-50%,-50%) rotate(360deg); 
+        }
+       }
  
     
  </style>
+

@@ -308,8 +308,8 @@
 <style lang="less" scoped>
    
 		.maps{
-		left: 17%;
-		width: 400px;
-         height: 400px;
+		 left: -10%;
+		 height: 9.125rem;
+         width: 100%;
 	} 
 </style>
