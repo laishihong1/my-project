@@ -35,6 +35,7 @@ Vue.use(borderBox5,borderBox6,borderBox9,borderBox10,borderBox11,borderBox12,bor
 
 //引用flexible
 import 'lib-flexible/flexible.js'
+ 
 
 //创建全局前置守护导航
 router.beforeEach((to, from, next) => {

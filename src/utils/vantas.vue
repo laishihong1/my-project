@@ -1,7 +1,7 @@
 <!--这里创建一个vantajs的挂载区域-->
 <template>
     <div class="vanta_area" ref="Area">
-       <p style="text-align:center;color:#fff;font-size:300%;top:70%">通讯录平台</p>
+       <p>通讯录平台</p>
     </div>
 </template>
 
@@ -45,5 +45,11 @@ export default {
     width:100%;
     height:100%; 
     z-index: -1; 
+    p{
+       text-align:center;
+       color:#fff;
+       font-size:1.25rem;
+       top:70%  
+    }
 }
 </style>

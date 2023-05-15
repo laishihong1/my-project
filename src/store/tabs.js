@@ -1,6 +1,7 @@
 export default{
     state:{
         isCollapse:false, //控制菜单的展开和收
+        icon:'fold',
         tabList:[
             {
                 path:'/Home',
@@ -15,6 +16,11 @@ export default{
     mutations:{
         CollapseMenu(state){
           state.isCollapse=!state.isCollapse
+          if(state.isCollapse===false){
+            state.icon='fold'
+          }else{
+            state.icon='unfold'
+          }
         },
         //更新面包屑数据
         selectMenu(state,val){
@@ -30,19 +36,23 @@ export default{
               
                 const index= state.tabList.findIndex(val=>val.name===item.name)
                 state.tabList.splice(index,1)
-               
+  
         },
-         hiddenTag(state,item){
-              if(item==='label'&&state.tabList.findIndex(val=>val.path==='/Label')){
-                state.hidden='none'
-                state.isCollapse=!state.isCollapse
-              }
+        //隐藏菜单栏
+        //  hiddenTag(state,item){
+        //       if(item==='label'&&state.tabList.findIndex(val=>val.path==='/Label')){
+        //         state.hidden='none'
+        //         state.isCollapse=!state.isCollapse
+        //        
+        //       }
              
-        },
-         displayTag(state){
-          state.hidden='block'
-          console.log(state.hidden)
-          state.isCollapse=!state.isCollapse
-         }
+        // },
+        // //打开菜单栏
+        //  displayTag(state){
+        //   state.hidden='block'
+        //   console.log(state.hidden)
+        //   state.isCollapse=!state.isCollapse
+        //   state.icon='icon'
+        //  }
     }
 }

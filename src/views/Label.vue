@@ -1,11 +1,11 @@
 <template>
-   <div style="overflow:hidden;">
+   <div class="Label">
      <!-- 背景 -->
      <dv-full-screen-container>
       
-      <el-container>
+      <el-container >
         <!-- 头部 -->
-          <el-header class="header" style="height:1.25rem;">
+          <el-header class="header">
             <h1>通讯录管理平台</h1>
            <div class="showTime">当前时间：{{ this.nowYear }}&nbsp;{{this.nowTime }}</div>
           </el-header>
@@ -14,24 +14,34 @@
           
               <el-col :span="6"  class="column">
                   <div class="grid-content bg-purple ">
-                <div class="panel">
-                <h2>在线人数比率拍名</h2>
-                <div class="chart">
-                  <lineTable1></lineTable1>
-                </div>
-                <div class="panel-footer"></div>
-                </div>
-                <div class="panel bar">
-                <h2>111111</h2>
-                <div class="chart"></div>
-                <div class="panel-footer"></div>
-                </div>
-                <div class="panel bar">
-                <h2>111111</h2>
-                <div class="chart"></div>
-                <div class="panel-footer"></div>
-                </div>
-              </div></el-col>
+                       
+                      <el-card class="box-card panel">
+                      <h2>在线人数比率拍名</h2>
+                      <div class="chart">
+                        <lineTable1></lineTable1>
+                      </div>
+                      <div class="panel-footer"></div>
+                    </el-card>
+                    
+                     <el-card class="box-card panel ">
+                      <h2>在线人数比率拍名</h2>
+                      <div class="chart">
+                     
+                      </div>
+                      <div class="panel-footer"></div>
+                    </el-card>
+                    
+                       <el-card class="box-card panel">
+                      <h2>在线人数比率拍名</h2>
+                      <div class="chart">
+                      
+                      </div>
+                      <div class="panel-footer"></div>
+                    </el-card>
+
+              </div>
+
+              </el-col>
               <el-col :span="12" class="column"><div class="grid-content bg-purple-light ">
                 <div class="no">
                   <div class="no-hd"><ul>
@@ -57,28 +67,33 @@
                 </div>
               </div></el-col>
               <el-col :span="6"  class="column"><div class="grid-content bg-purple ">
-                <div class="panel bar">
-                <h2>111111</h2>
-                <div class="chart">
-                  
-                </div>
-                <div class="panel-footer"></div>
-                </div>
-                <div class="panel bar">
-                <h2>111111</h2>
-                <div class="chart"></div>
-                <div class="panel-footer"></div>
-                </div>
-                <div class="panel bar">
-                <h2>111111</h2>
-                <div class="chart"></div>
-                <div class="panel-footer"></div>
-                </div>
+                   <el-card class="box-card panel">
+                      <h2>在线人数比率拍名</h2>
+                      <div class="chart">
+                     
+                      </div>
+                      <div class="panel-footer"></div>
+                    </el-card>
+                     <el-card class="box-card panel">
+                      <h2>在线人数比率拍名</h2>
+                      <div class="chart">
+                       
+                      </div>
+                      <div class="panel-footer"></div>
+                    </el-card>
+                     <el-card class="box-card panel">
+                      <h2>在线人数比率拍名</h2>
+                      <div class="chart">
+                      
+                      </div>
+                      <div class="panel-footer"></div>
+                    </el-card>
               </div></el-col>
            
           </el-main>
       </el-container>
     </dv-full-screen-container>
+   
    </div>
   
 </template>
@@ -87,19 +102,9 @@
 <script>
      import lineTable1 from '@/components/echart/Label/lineTable1'
      import maps from '@/components/echart/Label/maps'
-     var $ = require("jquery");
-     $(document).ready(function(){
-         //初始设置
-         var mastheadHeight=$('#assitImg').css('height');
-	$('.masthead').css('height',mastheadHeight);
-	//背景图随屏幕大小改变
-	$(window).resize(function(){
-		var mastheadHeight=$('#assitImg').css('height');
-		$('.masthead').css('height',mastheadHeight);
-	});
-	
-})
-
+     import plainTable6 from '@/components/echart/Label/plainTable6'
+     import carouselTable from '@/components/echart/Label/carouselTable'
+ 
      export default {
       
         data() {
@@ -111,9 +116,6 @@
                   
             };
         },
-        created(){
-            this.hiddenTags()
-        },
         mounted() {
           this.currentTime();
           this.refresh(600);
@@ -122,9 +124,10 @@
             this.$store.commit('displayTag')
         },
         methods:{
-            hiddenTags(){
-                 this.$store.commit('hiddenTag','label')
-            },
+            // hiddenTags(){
+            //      this.$store.commit('hiddenTag','label')
+            // },
+ 
             currentTime() {
             setInterval(this.getDate, 500);
             },
@@ -160,7 +163,9 @@
       
     components:{
        maps,
-       lineTable1
+       lineTable1,
+       plainTable6,
+       carouselTable
     }
 }
 
@@ -172,15 +177,12 @@
         font-family:'electronicFont';
         src: url("@/utils/DS-DIGIT.ttf");
    }
-   li{
-    list-style: none;
-   }
-   #dv-full-screen-container{
+    
+        #dv-full-screen-container{
     padding: 0;
     margin: 0;
     z-index: 0;
-    width: 43rem;
-    height: 18rem;
+  
     background: url("@/utils/bg1.jpg") no-repeat top center ;
     background-size:100% 100%;
      .header{
@@ -203,9 +205,7 @@
           font-family:'electronicFont';
       }
     }
-   }
-   
-  //  页面主体盒子
+     //  页面主体盒子
      .mainbox{
         display: flex;
         min-width: 24rem;
@@ -213,6 +213,8 @@
         min-height: 13.5rem;
         max-height: 18rem;
         margin:0;
+        width: 100%;
+        height: 100%;
         //background-color: aqua;
         padding:0.125rem 0.125rem 0;
         .column{
@@ -220,13 +222,14 @@
         }
         .column:nth-child(2){
           flex: 5;
-          margin: 0 .125rem .1875rem;
+          margin: 0 .12rem .185rem;
         }
+
         .panel{ 
                 position: relative;
-                padding: 0 .1875rem .5rem;
-                margin-bottom: 0.275rem;
-                height: 3.14rem;
+                height: 3.45rem;
+                margin-bottom: 0.35rem;
+               // height: 3.14rem;
                 border: 1px solid rgba(255, 186,139,0.17);
                 background: url("@/utils/line.png");
                 background-color: rgba(255,255,255,.03);
@@ -277,6 +280,7 @@
                   }
                 }
                 h2{
+                  margin: 0;
                   height: .6rem;
                   color: #fff;
                   line-height: .6rem;
@@ -287,6 +291,22 @@
                    height: 2.5rem;
                    position: relative;
                 }
+               
+                .cpu{
+                        position: relative;
+                        flex: 1;
+                        width: 50%;
+                        height: 100%;
+                        background-color: #ffeb7b;
+                   }
+                   .memory{
+                         position: relative;
+                         flex: 1;
+                         background-color: #02a6b5;
+                          width: 50%;
+                          height: 100%;
+                   }
+                
         }
 
         //数字模块
@@ -301,7 +321,7 @@
                      top:0;
                      left: 0;
                      content: "";
-                     width: 30px;
+                     width: 0.375rem;
                      height: 10px;
                      border-top:  2px solid #02a6b5 ;
                      border-left: 2px solid #02a6b5;
@@ -399,6 +419,20 @@
       }
 
       }
+   }
+   
+
+      .el-card{
+        background-color: transparent;
+        border: 0;
+      }
+      
+   li{
+    list-style: none;
+   }
+
+  
+ 
   
        @keyframes rotate1{
         from{

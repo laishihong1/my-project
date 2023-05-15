@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div class="User">
+      
         <el-table
     :data="tableData.filter(data => !search || data.replyAccount.toLowerCase().includes(search.toLowerCase()))"
      v-bind="lookThoughNumber(tableData.filter(data => !search || data.replyAccount.toLowerCase().includes(search.toLowerCase())))"
@@ -50,7 +51,7 @@
             <div class="pagination-container">
 
                 <el-pagination
-                        class="pagiantion"
+                        class="pagiantion" 
 
                         @current-change="handleCurrentChange"
 
@@ -63,8 +64,6 @@
                         :total="pagination.total">
 
                 </el-pagination>
-                   
-                 
             </div>
   </div>
 </template>
@@ -152,9 +151,19 @@
 
 </script>
 <style lang="less" scoped>
-         .pagiantion{
-      position: absolute;
-      margin-top: 10px;
-       right: 20px;
-  }
+      .User{
+         position: relative;
+         width: 100%;
+         height: 100%;
+        // overflow: hidden;
+         .pagination-container{
+            position: relative;
+            display: flex;
+            .pagiantion{
+               position: absolute;
+               right: 0;
+            }
+         }
+      }
+    
 </style>

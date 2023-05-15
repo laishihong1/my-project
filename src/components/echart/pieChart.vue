@@ -102,7 +102,8 @@
                            
                         ]
                 };
-                myChart.setOption(option);
+                 myChart.setOption(option);
+                 window.onresize = myChart.resize;
         })
     },
       itemTotal: function(array){

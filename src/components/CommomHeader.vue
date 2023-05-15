@@ -1,7 +1,7 @@
 <template>
     <div class="header-container" >
         <div class="l-header">  
-            <el-button style="margin-right:20px" @click="clicktab" icon="el-icon-menu" size="mini" ></el-button>
+            <el-button style="margin-right:20px" @click="clicktab"  :class="`el-icon-s-${this.$store.state.tabs.icon}`" size="mini" ></el-button>
                 <el-breadcrumb separator-class="el-icon-arrow-right">
                     <el-breadcrumb-item    v-for="item in tags" :key="item.path" :to="{ path: item.path}">{{item.label}}</el-breadcrumb-item>
                 </el-breadcrumb>
@@ -35,7 +35,9 @@
              clicktab() {
              this.$store.commit('CollapseMenu')
             },
-        
+            clickIcon(){
+
+            }
         },
         computed:{
             ...mapState({

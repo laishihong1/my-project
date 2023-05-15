@@ -162,7 +162,7 @@ export default {
            }
            myChart.setOption(option);
            window.addEventListener("resize", () => {
-           this.myChart.resize;
+           this.$echarts.resize;
       });
         })
         
@@ -187,8 +187,7 @@ export default {
                      this.datas[k-1]=temps;
                 }
             }
-           }
-                   
+           }          
        },
     //    计算响应式屏幕占比
        fontSize:function(res){
@@ -199,16 +198,15 @@ export default {
             document.body.clientWidth;
         if (!clientWidth) return;
       
-        let fontSize = clientWidth / 2600;
+        let fontSize = clientWidth / 1440;
         return res * fontSize;
-
-      },
-       beforeDestroy() {
+      },  
+    },
+     beforeDestroy() {
           window.removeEventListener("resize", () => {
-           this.myChart.resize
+           this.$echarts.resize;
          })
        },
-    }
 }
 </script>
    

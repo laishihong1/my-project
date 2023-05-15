@@ -1,10 +1,11 @@
 
 <template>
     
-    <div>
+    <div class="Login">
        
       <vantas></vantas>
-         <body id="poster">
+
+         <body class="poster">
     <el-form class="login-container" label-position="left">
       <h3 class="login_title">系统登录</h3>
       <el-form-item>
@@ -26,6 +27,7 @@
 import vantas from '@/utils/vantas'
 import Mock from 'mockjs'
 import cookie from 'js-cookie'
+ 
     export default {
         name: "Login",
         data() {
@@ -58,34 +60,43 @@ import cookie from 'js-cookie'
     }
 </script>
 
-<style>
-  #poster {
-    
-    top: 25%;
-    left: 39%;
-    position: absolute;
-     margin: 0;
-    padding: 0;
-  }
- 
-  .login-container {
-    border-radius: 15px;
-    background-clip: padding-box;
-    margin: 90px auto;
-    width: 350px;
-    padding: 35px 35px 15px 35px;
-    background: #fff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
-  }
- 
-  .login_title {
-    margin: 0px auto 40px auto;
-    text-align: center;
-    color: #505458;
-  }
- 
- 
+<style lang="less" scoped>
+
+     .Login{
+         position: relative;
+        // width: 100wh;
+         height: 100vh;
+           #vantas{
+             width: 100%;
+             height: 100%;
+           }
+            .poster{
+            position: absolute;
+            top: 50%;
+            left:50%;
+            transform: translate(-50%,-50%);
+            margin:  0;
+            padding: 0;
+           .login-container {
+            border-radius: .1875rem;
+            background-clip: padding-box;
+            margin: 1.125rem auto;
+            width: 6.375rem;
+            padding: .4375rem .4375rem .1875rem .4375rem;
+            background: #fff;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 0 .3125rem #cac6c6;
+          }
+            .login_title {
+              margin: 0px auto .5rem auto;
+              text-align: center;
+              color: #505458;
+              font-size: .37rem;
+           }
+        }  
+         }
+         
+     
 </style>
 
 

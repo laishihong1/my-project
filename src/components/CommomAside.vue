@@ -8,8 +8,7 @@
             :collapse="isCollapse"
             background-color="#545c64"
             text-color="#fff"
-            active-text-color="#ffd04b"
-            
+            active-text-color="#ffd04b"     
  >
  <h3>{{!isCollapse?'通讯录管理系统':'管理'}}</h3> 
           <el-menu-item @click="clickHome(item)" v-for="item in noChildren" :key="item.name" :index="item.name">
@@ -35,17 +34,36 @@
 
  <style lang="less" scoped>
     .el-menu-vertical-demo:not(.el-menu--collapse){
-      width: 200px;
-      min-height: 400px;
+      width: 3.8rem;
+      min-height: 5rem ;
     }
     .el-menu {
       height: 100vh;
-
       border: 0;
     h3{
       color: #fff;
+     
+      font-size: .35rem;
+      margin: 0;
+      height: 1.1rem;
+      line-height: 1rem;
     }
     }
+
+    /deep/.el-menu .el-menu-item:hover{
+    outline: 0 !important;
+    color: #fff !important;
+    background: linear-gradient(270deg, #91bbe4 0%, #91bbe4 100%)!important;
+}
+/deep/.el-menu .el-menu-item.is-active {
+    color: #fff !important;
+    background: linear-gradient(270deg, #91bbe4 0%, #91bbe4 100%)!important;
+}
+.el-submenu /deep/.el-submenu__title:hover {
+  color: #fff !important;
+  background: linear-gradient(270deg, #91bbe4 0%, #91bbe4 100%)!important;
+}
+
  </style>
 
 <script>
