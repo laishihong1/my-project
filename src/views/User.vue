@@ -1,6 +1,13 @@
 <template>
     <div class="User">
-      
+       <div class="filter-container">
+                <el-input placeholder="请输入账号" v-model=" pagination.userAccount" style="width: 200px; margin-right:20px" class="filter-item"></el-input>
+                <el-input placeholder="请输入密码" v-model=" pagination.userPassword" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
+                <el-input placeholder="请输入电话号码" v-model=" pagination.numberPhone" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
+                <el-button @click="getAllPages()" class="dalfBut">查询</el-button>
+               
+            </div>
+
         <el-table
     :data="tableData.filter(data => !search || data.replyAccount.toLowerCase().includes(search.toLowerCase()))"
      v-bind="lookThoughNumber(tableData.filter(data => !search || data.replyAccount.toLowerCase().includes(search.toLowerCase())))"
@@ -8,7 +15,7 @@
 
     <el-table-column
       label="申请日期"
-      prop="date">
+      prop="replyTime">
     </el-table-column>
 
     <el-table-column
@@ -17,15 +24,20 @@
     </el-table-column>
     
     <el-table-column
-      label="在线总时间"
-      prop="totalTime">
+      label="申请密码"
+      prop="replyPassword">
+    </el-table-column>
+
+   <el-table-column
+      label="电话号码"
+      prop="numberPhone">
     </el-table-column>
 
     <el-table-column
       label="申请理由"
       prop="replyReason">
     </el-table-column>
-
+    
      <el-table-column
       align="right">
       <template slot="header" slot-scope="{}">
@@ -45,6 +57,7 @@
           @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
+
   </el-table>
              
                <!--分页组件-->
@@ -79,7 +92,10 @@
            pagination: {//分页相关模型数据
                 currentPage: 1,//当前页码
                 pageSize:20,//每页显示的记录数e
-                total:0,//总记录数
+                total:0,//总记录数,
+                userAccount:'',
+                userPassword:'',
+                numberPhone:''
             }, 
            
       }
@@ -89,12 +105,56 @@
     },
 
     methods: {
+
+       init(){
+
+         this.$axios.get("http://localhost:8080/user/userReplyAll/"+this.pagination.currentPage+"/"+this.pagination.pageSize).then(res=>{
+                if(res.data.flag){
+                  console.log(res.data.data)
+                   this.tableData=res.data.data
+                   console.log(this.tableData)
+                }
+                 else{
+                    this.$$message.error('当前返回数据异常');
+                 }
+            
+            }).catch(error=>{
+                    this.$message.warning('当前服务器不在线,数据为模拟数据')
+                    this.$axios.get('http://localhost:8081/text/reply').then(res=>{
+                      this.tableData=res.data
+                })
+            })
+      },
+      
+          //分页查询
+            getAllPages() {
+                //组织参数，拼接url请求地址
+                // console.log(this.pagination.type);
+            var param = "?replyAccount="+this.pagination.userAccount;
+                param +="&replyPassword="+this.pagination.userPassword;
+              
+                // console.log(param);
+
+                //发送异步请求
+                this.$axios.get("http://localhost:8080/user/userReplySearch/"+this.pagination.currentPage+"/"+this.pagination.pageSize+'/'+param).then((res)=>{
+                     if(res.data.flag){  
+                     this.tableData=res.data.data
+                     this.pagination.total=res.data.data.length
+                     console.log(this.tableData)
+                     }else{
+                        this.$message.error('当前查询异常')
+                     }
+                     
+                });
+            },
+
+
       handleEdit(index, row) {
         console.log(index, row);
-          //发送后端数据添加请求 post 返回成功和失败信息
-           this.$axios.post('http://localhost:8080/text/reply'+row).then((res)=>{
+          //发送同意注册请求
+           this.$axios.post('http://localhost:8080/simpleUser/agreeReplyUser'+'/'+row.id).then((res)=>{
           
-                         if(res.data){
+                         if(res.data.flag){
                           this.$message.success('已同意')
                          }else{
                           this.$message.error('操作异常')
@@ -106,16 +166,17 @@
           this.init()
       },
       
+      //发送撤回注册
       handleDelete(index, row) {
         console.log(index, row);
          this.$confirm("此操作永久删除当前信息，是否继续？","提示",{type:"info"}).then(()=>{
-          //  this.$axios.delete("http://localhost:8080/students/"+row)
-                    this.$axios.delete('http://localhost:8080/text/reply'+row).then((res)=>{
+          
+                    this.$axios.delete('http://localhost:8080/simpleUser/deleteReplyUser'+'/'+row.id).then((res)=>{
                     
-                         if(res.data){
-                          this.$message.success('删除成功')
+                         if(res.data.flag){
+                          this.$message.success('已撤回')
                          }else{
-                          this.$message.error('删除失败')
+                          this.$message.error('操作异常')
                          }
                     }).finally(()=>{
                         //2.重新加载数据
@@ -130,19 +191,14 @@
             this.pagination.total=item.length
       },
 
-     init(){
-        this.$axios.get('http://localhost:8080/text/reply').then(res=>{
-            this.tableData=res.data
-        })
-     },
-
-            // //切换页码
-            handleCurrentChange(currentPage) {
-                //修改页码值为当前选中的页码值
-                this.pagination.currentPage = currentPage;
-                //执行查询
-                this.init();
-            },
+ 
+      // //切换页码
+      handleCurrentChange(currentPage) {
+          //修改页码值为当前选中的页码值
+          this.pagination.currentPage = currentPage;
+          //执行查询
+          this.init();
+      },
 
            
         },

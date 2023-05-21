@@ -295,8 +295,11 @@
     	    },
     	    series: series
     	};
-          myChart.setOption(option);
-		  window.onresize = myChart.resize;
+         // myChart.setOption(option);
+		  myChart.setOption(option);
+           window.addEventListener("resize", () => {
+           this.$echarts.resize;
+      });
            }
         }
     }

@@ -5,40 +5,35 @@
 
         <div class="box">
 
-            <div class="filter-container">
-                <el-input placeholder="输入姓名" v-model=" pagination.name" style="width: 200px; margin-right:20px" class="filter-item"></el-input>
-
-
-                <el-select v-model=" pagination.gender" placeholder="请选择性别"  style="width: 200px; margin-right:20px">
-                    <el-option label="男" value="男"></el-option>
-                    <el-option label="女" value="女"></el-option>
-                </el-select>
-
-                <el-input placeholder="请输入地址" v-model=" pagination.address" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
-
+            <div class="filter-container" style="left:0.5rem">
+                <el-input placeholder="请输入账号" v-model=" pagination.userAccount" style="width: 200px; margin-right:20px" class="filter-item"></el-input>
+                <el-input placeholder="请输入用户名" v-model=" pagination.userName" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
+                  <el-input placeholder="请输入上次登陆地点" v-model=" pagination.userLocation" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
                 <el-button @click="getAllPages()" class="dalfBut">查询</el-button>
-                <el-button type="primary" class="butT" @click="handleCreate()">新建</el-button>
+               
             </div>
 
             <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
 
-                <el-table-column prop="name" align="center" label="姓名"></el-table-column>
+                <el-table-column prop="userAccount" align="center" label="用户账号"></el-table-column>
 
-                <el-table-column prop="gender" label="性别" align="center"></el-table-column>
+                <el-table-column prop="userName" label="用户昵称" align="center"></el-table-column>
 
-                <el-table-column prop="birthday" label="出生日期" align="center"></el-table-column>
+                <el-table-column prop="userOnlineTime" label="用户上次登陆时间" align="center"></el-table-column>
 
-                <el-table-column prop="phone" label="电话号码" align="center"></el-table-column>
+                <el-table-column prop="userTotalTime" label="用户总在线时长" align="center"></el-table-column>
 
-                <el-table-column prop="address" label="现居地址" align="center"></el-table-column>
-
+                <el-table-column prop="userLocation" label="用户上次登陆地点" align="center"></el-table-column>
+    
+                <el-table-column prop="mark" label="用户身份" align="center"></el-table-column>
+                
                 <el-table-column label="操作" align="center">
 
                     <template slot-scope="scope">
 
-                        <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+                        <el-button type="primary" size="mini" @click="handleUpdate(scope.$index,scope.row)">编辑</el-button>
 
-                        <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+                        <el-button type="danger" size="mini" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
 
                     </template>
 
@@ -66,83 +61,21 @@
 
             </div>
 
-            <!-- 新增标签弹层 -->
-
-            <el-dialog title="添加学生" :visible.sync="dialogFormVisible">
-
-                <el-form :inline="true"   class="demo-form-inline">
-                    <el-form-item label="学生姓名">
-                        <el-input  v-model="formData.name" placeholder="请输入"></el-input>
-                    </el-form-item>
-                    <el-form-item label="性别">
-                        <el-select v-model="formData.gender"  placeholder="请选择性别">
-                            <el-option label="男" value="男" ></el-option>
-                            <el-option label="女" value="女" ></el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-form>
-
-                <el-form :inline="true"   class="demo-form-inline">
-                        <el-form-item label="出生日期">
-                            <el-date-picker
-                                    v-model="formData.birthday"
-                                    type="date"
-                                    placeholder="选择日期">
-                            </el-date-picker>
-                        </el-form-item>
-                    <el-form-item  label="电话">
-                        <el-input  v-model="formData.phone"  placeholder="请输入"></el-input>
-                    </el-form-item>
-                </el-form>
-
-                <el-form :inline="true"  class="demo-form-inline">
-                    <el-form-item  label="现居地址">
-                        <el-input  v-model="formData.address"  placeholder="请输入"></el-input>
-                    </el-form-item>
-                </el-form>
-
-
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="dialogFormVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="handlerAdd()">确 定</el-button>
-                </div>
-
-            </el-dialog>
-
-
             <!-- 编辑标签弹层 -->
 
             <div class="add-form">
 
                 <el-dialog title="修改信息" :visible.sync="dialogFormVisible4Edit">
                     <el-form :inline="true"   class="demo-form-inline">
-                        <el-form-item label="学生姓名">
-                            <el-input  v-model="formData.name" placeholder="请输入"></el-input>
-                        </el-form-item>
-                        <el-form-item label="性别">
-                            <el-select v-model="formData.gender"  placeholder="请选择性别">
-                                <el-option label="男" value="男" ></el-option>
-                                <el-option label="女" value="女" ></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-form>
 
-                    <el-form :inline="true"   class="demo-form-inline">
-                        <el-form-item label="出生日期">
-                            <el-date-picker
-                                    v-model="formData.birthday"
-                                    type="date"
-                                    placeholder="选择日期">
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item  label="电话">
-                            <el-input  v-model="formData.phone"  placeholder="请输入"></el-input>
+                        <el-form-item label="用户账号">
+                            <el-input  v-model="formData.userAccount" placeholder="请输入"></el-input>
                         </el-form-item>
                     </el-form>
 
                     <el-form :inline="true"  class="demo-form-inline">
-                        <el-form-item  label="现居地址">
-                            <el-input  v-model="formData.address"  placeholder="请输入"></el-input>
+                       <el-form-item label="用户身份">
+                            <el-input  v-model="formData.mark" placeholder="请输入"></el-input>
                         </el-form-item>
                     </el-form>
 
@@ -160,6 +93,8 @@
         </div>
 
     </div>
+
+    
     </div>
 </template>
 
@@ -171,59 +106,75 @@
             dialogFormVisible: false,//添加表单是否可见
             dialogFormVisible4Edit:false,//编辑表单是否可见
             formData: {
-                name:'',
-                gender:'',
-                value1:'',
-                phone:'',
-                address:''
+                id:'',
+                userAccount:'',
+                mark:''
             },//表单数据
-            rules: {//校验规则
-                type: [{ required: true, message: '图书类别为必填项', trigger: 'blur' }],
-                name: [{ required: true, message: '图书名称为必填项', trigger: 'blur' }]
-            },
+            
             pagination: {//分页相关模型数据
                 currentPage: 1,//当前页码
                 pageSize:20,//每页显示的记录数e
                 total:0,//总记录数
-                name:'',
-                gender:'',
-                address:''
+                userAccount:'',
+                userName:'',
+                userUsedEquiment:'',
+                userOnlineTime:'',
+                userTotalTime:'',
+                userLocation:'',
+                mark:''
             },
-             studentData: {}
+            
             };
          },
           //钩子函数，VUE对象初始化完成后自动执行-->
           mounted() {
             //调用查询全部数据的操作-->
-           
             this.getAll();
         },
        methods: {
             //列表
             getAll() {
                 //发送异步请求
-                this.$axios.get("http://localhost:8080/students").then((res)=>{
-                   
-                    this.dataList = res.data.data;
+              
+
+                this.$axios.get("http://localhost:8080/user/userAll/"+this.pagination.currentPage+"/"+this.pagination.pageSize).then((res)=>{
+                   console.log(res.data)
+                   if(res.data.flag){
+                      
+                       this.dataList=res.data.data
                      this.pagination.total=res.data.data.length
-                });
+                    } else{
+                        this.$message.error('当前返回数据异常')
+                    }
+                   
+                })
+                .catch(error=>{
+                    this.$message.warning('服务器当前不在线,当前数据为模拟数据')
+                     this.$axios.get("http://localhost:8080/text/comManage/").then((res)=>{
+                     this.dataList = res.data;
+                     this.pagination.total=res.data.length
+                })
+                })
             },
 
             //分页查询
             getAllPages() {
                 //组织参数，拼接url请求地址
                 // console.log(this.pagination.type);
-            var param = "?name="+this.pagination.name;
-                param +="&gender="+this.pagination.gender;
-                param +="&address="+this.pagination.address;
+                var param = "?name="+this.pagination.userAccount;
+                param +="&gender="+this.pagination.userName;
+                param +="&address="+this.pagination.userLocation;
                 // console.log(param);
 
                 //发送异步请求
-                this.$axios.get("http://localhost:8080/students/"+this.pagination.currentPage+"/"+this.pagination.pageSize+param).then((res)=>{
-                    this.pagination.pageSize = res.data.data.size;
-                    this.pagination.currentPage = res.data.data.current;
-                    this.pagination.total = res.data.data.total;
-                    this.dataList = res.data.data.records;
+                this.$axios.get("http://localhost:8080/user/userSearch/"+this.pagination.currentPage+"/"+this.pagination.pageSize+'/'+param).then((res)=>{
+                     if(res.data.flag){
+                     this.dataList=res.data.data
+                     this.pagination.total=res.data.data.length
+                     }else{
+                        this.$message.error('当前查询异常')
+                     }
+                     
                 });
             },
 
@@ -247,27 +198,8 @@
             resetForm() {
                 this.formData = {};
             },
-            //
-             //添加
-
-             handlerAdd() {
-                this.$axios.post("http://localhost:8080/students",this.formData).then((res)=>{
-                    //判断当前操作是否成功
-                    if(res.data.flag){
-                        //1.关闭弹层
-                        this.dialogFormVisible = false;
-                         this.$message.success(res.data.msg);
-                    }else{
-                         this.$message.error(res.data.msg);
-                    }
-                }).finally(()=>{
-                    //2.重新加载数据
-                    this.getAll();
-                });
-            },
-
-
-            //
+            
+            
             // //取消
             cancel(){
                 this.dialogFormVisible = false;
@@ -279,11 +211,11 @@
             handleDelete(row) {
                 // console.log(row);
                 this.$confirm("此操作永久删除当前信息，是否继续？","提示",{type:"info"}).then(()=>{
-                    this.$axios.delete("http://localhost:8080/students/"+row.id).then((res)=>{
+                    this.$axios.delete("http://localhost:8080/stsimpleUser/deleteReplyUser/"+row.id).then((res)=>{
                         if(res.data.flag){
                             this.$message.success("删除成功");
                         }else{
-                            this.$message.error("数据同步失败，自动刷新");
+                            this.$message.error("操作异常");
                         }
                     }).finally(()=>{
                         //2.重新加载数据
@@ -294,41 +226,40 @@
                 });
             },
 
-            //
-            //弹出编辑窗口
-            handleUpdate(row) {
-                this.$axios.get("http://localhost:8080/students/"+row.id).then((res)=>{
-                    if(res.data.flag && res.data.data != null ){
-                        this.dialogFormVisible4Edit = true;
-                        this.formData = res.data.data;
-                    }else{
-                        this.$message.error("数据同步失败，自动刷新");
-                    }
-                }).finally(()=>{
-                    //2.重新加载数据
-                    this.getAll();
-                });
-            },
+            
+            // handleUpDate(row){
+            //      this.handleCreate();
+            //      this.formData.id=row.id
+            //      this.formData.userAccount=row.userAccount
+            //      this.formData.mark=row.mark
+            // },
 
-             //修改
+            //  //修改
 
-            handleEdit() {
-                this.$axios.put("http://localhost:8080/students",this.formData).then((res)=>{
-                    //判断当前操作是否成功
-                    if(res.data.flag){
-                        //1.关闭弹层
-                        this.dialogFormVisible4Edit = false;
-                        this.$message.success("修改成功");
-                    }else{
-                        this.$message.error("修改失败");
-                    }
-                }).finally(()=>{
-                    //2.重新加载数据
-                    this.getAll();
-                });
-            },
+            // handleEdit(row) {
+            //      if(this.formData.userAccount===row.userAccount&&this.formData.mark==row.mark){
+            //         this.$message.error('当前你未作出任何修改')
+            //      }else if(this.formData.userAccount===''||this.formData.mark===''){
+            //         this.$message.error('请确认是否全部填写')
+            //      }else{
+            //         this.$axios.put("http://localhost:8080/students",this.formData).then((res)=>{
+            //         if(res.data.flag){
+            //             this.$message.success('编辑成功')
+            //         }
+            //         else{
+            //             this.$$message.error('操作异常')
+            //         }
+            //         }).finally(()=>{
+            //             //2.重新加载数据
+            //             this.getAll();
+            //         });
+            //      }
+                
+            // },
         },
          
+
+
    }
 </script>
 

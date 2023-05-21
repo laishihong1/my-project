@@ -4,8 +4,10 @@ const Mock=require('mockjs')
      const Array=[]
     for (let index = 0; index < 10; index++) {
         Array[index]=Mock.mock({
-            'date':Mock.Random.now(),
+            'replyTime':Mock.Random.now(),
             'replyAccount':Mock.Random.word(6,8),
+            'replyPassword':Mock.Random.word(6,8),
+            'numberPhone':'12345678901',
             'totalTime':Mock.Random.natural(60, 200),
             'replyReason':Mock.Random.cparagraph(2)
        })  

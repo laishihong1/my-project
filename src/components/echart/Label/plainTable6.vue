@@ -9,7 +9,9 @@
 <script>
     export default {
         data() {
-           cpu:''
+           return{
+            cpu:50
+           }
         },
         mounted(){
                this.init()
@@ -18,7 +20,7 @@
             init(){
                   var myChart=this.$echarts.init(this.$refs.plainTable6) 
                   let angle = 0;//角度，用来做简单的动画效果的
-                  let value = 55.33;
+                  let value =this.cpu;
                   var option={
                           title: {
                             text: '{a|'+ value +'}{c|%}',
@@ -342,7 +344,7 @@ setInterval(function() {
 <style lang="less" scoped>
        .plainTable6{
             position: absolute;
-            top: -0.625rem;
+            top: -0.325rem;
             height:3.40rem;
             width:100%;
        }

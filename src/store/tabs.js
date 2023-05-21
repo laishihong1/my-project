@@ -2,6 +2,7 @@ export default{
     state:{
         isCollapse:false, //控制菜单的展开和收
         icon:'fold',
+       // component:0,
         tabList:[
             {
                 path:'/Home',
@@ -10,11 +11,13 @@ export default{
                 icon:'s-home',
                 url:'Home/Home'
                }
-        ], //面包屑数据
-      hidden:'block'
+        ], 
+       // hidden:'block'
+       reigsterMark:0,
     },
     mutations:{
-        CollapseMenu(state){
+       
+      CollapseMenu(state){
           state.isCollapse=!state.isCollapse
           if(state.isCollapse===false){
             state.icon='fold'
@@ -38,6 +41,15 @@ export default{
                 state.tabList.splice(index,1)
   
         },
+        user_stat(state){
+        //  console.log(state.user_statistics)
+          state.user_statistics=JSON.parse(window.localStorage.getItem('userStatistics'))
+        },
+       
+        modifyMark(state,item){
+           state.reigsterMark=state.reigsterMark+item
+        } 
+
         //隐藏菜单栏
         //  hiddenTag(state,item){
         //       if(item==='label'&&state.tabList.findIndex(val=>val.path==='/Label')){
@@ -54,5 +66,7 @@ export default{
         //   state.isCollapse=!state.isCollapse
         //   state.icon='icon'
         //  }
+
+
     }
 }

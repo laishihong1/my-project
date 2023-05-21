@@ -42,9 +42,9 @@ export default {
            var option={
             grid: {
                 left: -'1.25rem',
-                top: -'1px',
+               
                 right: '0%',
-                bottom: '0%',
+                bottom: '10%',
                 width:'90%',
                 height:'90%',
                 containLabel: true
@@ -55,11 +55,11 @@ export default {
              yAxis: [{
                 axisTick: 'none',
                 axisLine: 'none',
-                offset: this.fontSize(25),
+                offset: this.fontSize(10),
                 axisLabel: {
                     textStyle: {
                         color: '#ffffff',
-                        fontSize: this.fontSize(8),
+                        fontSize: this.fontSize(6),
                      }
                  },
          data: this.province
@@ -69,7 +69,7 @@ export default {
         axisLabel: {
             textStyle: {
                 color: '#ffffff',
-                fontSize: this.fontSize(7),
+                fontSize: this.fontSize(6),
             }
         },
         data: ['10', '9', '8', '7', '6', '5', '4', '3', '2', '1']
@@ -92,7 +92,7 @@ export default {
                     position: 'right',
                     textStyle: {
                         color: '#ffffff',
-                        fontSize: this.fontSize(8),
+                        fontSize: this.fontSize(7),
                     }
                 }
             },
@@ -113,7 +113,7 @@ export default {
             barGap: '100%',
            
             data: [99, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5],
-            barWidth: this.fontSize(8.5),
+            barWidth: this.fontSize(7),
             itemStyle: {
                 normal: {
                     color: '#0e2147',
@@ -128,7 +128,7 @@ export default {
             barGap: '100%',
             
             data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
-            barWidth: this.fontSize(11),
+            barWidth: this.fontSize(9),
             itemStyle: {
                 normal: {
                     color: function(params) {
@@ -146,7 +146,7 @@ export default {
             hoverAnimation: false,
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             yAxisIndex: 2,
-            symbolSize: this.fontSize(10),
+            symbolSize: this.fontSize(8),
             itemStyle: {
                 normal: {
                     color: function(params) {
@@ -213,7 +213,8 @@ export default {
 <style lang="less" scoped>
      .bar1{
         position: absolute;
-        top: -0.625rem;
+        top: 0.15rem;
+        
         height:3.40rem;
         width:100%;
      }

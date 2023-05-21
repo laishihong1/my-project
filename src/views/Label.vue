@@ -1,5 +1,5 @@
 <template>
-   <div class="Label">
+   <div>
      <!-- 背景 -->
      <dv-full-screen-container>
       
@@ -13,34 +13,32 @@
           <el-main class="mainbox">
           
               <el-col :span="6"  class="column">
-                  <div class="grid-content bg-purple ">
-                       
-                      <el-card class="box-card panel">
+                  <div class="grid-content bg-purple " >
+                      <div class="box-card panel">
                       <h2>在线人数比率拍名</h2>
                       <div class="chart">
                         <lineTable1></lineTable1>
                       </div>
                       <div class="panel-footer"></div>
-                    </el-card>
-                    
-                     <el-card class="box-card panel ">
-                      <h2>在线人数比率拍名</h2>
+                    </div> 
+
+                      <div class="box-card panel">
+                      <h2>时段人数分布-折线图</h2>
                       <div class="chart">
-                     
+                        <line-table2></line-table2>
                       </div>
                       <div class="panel-footer"></div>
-                    </el-card>
-                    
-                       <el-card class="box-card panel">
-                      <h2>在线人数比率拍名</h2>
-                      <div class="chart">
-                      
+                    </div> 
+
+                      <div class="box-card panel">
+                      <h2>当日地区人数-轮播表</h2>
+                      <div class="chart" style="overflow:hidden">
+                         <carousel-table></carousel-table>
                       </div>
                       <div class="panel-footer"></div>
-                    </el-card>
+                    </div> 
 
-              </div>
-
+                  </div>
               </el-col>
               <el-col :span="12" class="column"><div class="grid-content bg-purple-light ">
                 <div class="no">
@@ -67,27 +65,42 @@
                 </div>
               </div></el-col>
               <el-col :span="6"  class="column"><div class="grid-content bg-purple ">
-                   <el-card class="box-card panel">
-                      <h2>在线人数比率拍名</h2>
+                    
+                    
+                      <div class="box-card panel">
+                      <h2>地区人数分布-柱状图</h2>
                       <div class="chart">
-                     
+                       <column-table4></column-table4>
                       </div>
                       <div class="panel-footer"></div>
-                    </el-card>
-                     <el-card class="box-card panel">
-                      <h2>在线人数比率拍名</h2>
+                    </div> 
+
+
+                      <div class="box-card panel">
+                      <h2>今日各在线设备数量分布-雷达图</h2>
                       <div class="chart">
-                       
+                          <makeapie></makeapie>
                       </div>
                       <div class="panel-footer"></div>
-                    </el-card>
-                     <el-card class="box-card panel">
-                      <h2>在线人数比率拍名</h2>
-                      <div class="chart">
-                      
+                    </div> 
+
+
+                      <div class="box-card panel">
+                      <h2>当前设备利用率</h2>
+                      <div class="chart" style="display:flex">
+                            
+                          <div class="cpu">
+                            <p>cpu利用率</p>
+                            <plain-table6></plain-table6>
+                          </div>
+                          <div class="memory">
+                            <p>内存利用率</p>
+                             <plain-table6-right></plain-table6-right>
+                          </div>
                       </div>
                       <div class="panel-footer"></div>
-                    </el-card>
+                    </div> 
+
               </div></el-col>
            
           </el-main>
@@ -104,7 +117,10 @@
      import maps from '@/components/echart/Label/maps'
      import plainTable6 from '@/components/echart/Label/plainTable6'
      import carouselTable from '@/components/echart/Label/carouselTable'
- 
+     import plainTable6Right from '@/components/echart/Label/plainTable6Right'
+     import makeapie from '@/components/echart/Label/makeapie'
+     import lineTable2 from '@/components/echart/Label/lineTable2'
+     import columnTable4 from '@/components/echart/Label/columnTable4'
      export default {
       
         data() {
@@ -112,22 +128,17 @@
                   nowTime: "", // 当前时间
                   nowYear: "", // 当前年份
                   dialogTableVisible: false,
-                  bar:this.$refs.bar1,
-                  
+                  bar:this.$refs.bar1, 
             };
         },
         mounted() {
+            
           this.currentTime();
           this.refresh(600);
         },
-        destroyed(){
-            this.$store.commit('displayTag')
-        },
+    
         methods:{
-            // hiddenTags(){
-            //      this.$store.commit('hiddenTag','label')
-            // },
- 
+          
             currentTime() {
             setInterval(this.getDate, 500);
             },
@@ -152,7 +163,6 @@
               refresh:function(seconds){
                 setTimeout("self.location.reload()",seconds*1000);
               },
-              
           },
          beforeDestroy: function() {
            if (this.getDate) {
@@ -165,7 +175,11 @@
        maps,
        lineTable1,
        plainTable6,
-       carouselTable
+       carouselTable,
+       plainTable6Right,
+       makeapie,
+       lineTable2,
+       columnTable4
     }
 }
 
@@ -179,13 +193,13 @@
    }
     
         #dv-full-screen-container{
-    padding: 0;
-    margin: 0;
-    z-index: 0;
-  
+        padding: 0;
+        margin: 0;
+        z-index: 0;
     background: url("@/utils/bg1.jpg") no-repeat top center ;
     background-size:100% 100%;
      .header{
+      height: 20vh;
       position: relative;
       background: url("@/utils/head_bg.png") no-repeat;
       background-size: 100% 100%;
@@ -213,8 +227,8 @@
         min-height: 13.5rem;
         max-height: 18rem;
         margin:0;
-        width: 100%;
-        height: 100%;
+        height: 80vh;
+        width: 100wh;
         //background-color: aqua;
         padding:0.125rem 0.125rem 0;
         .column{
@@ -228,6 +242,8 @@
         .panel{ 
                 position: relative;
                 height: 3.45rem;
+                padding: 0;
+                width: 6.4rem;
                 margin-bottom: 0.35rem;
                // height: 3.14rem;
                 border: 1px solid rgba(255, 186,139,0.17);
@@ -280,6 +296,7 @@
                   }
                 }
                 h2{
+
                   margin: 0;
                   height: .6rem;
                   color: #fff;
@@ -288,7 +305,7 @@
                   font-size: 0.25rem;
                 }
                 .chart{
-                   height: 2.5rem;
+                   height: 2.8rem;
                    position: relative;
                 }
                
@@ -297,14 +314,22 @@
                         flex: 1;
                         width: 50%;
                         height: 100%;
-                        background-color: #ffeb7b;
+                        p{
+                          text-align: center;
+                          color: #fff;
+                        }
+                       // background-color: #ffeb7b;
                    }
                    .memory{
                          position: relative;
                          flex: 1;
-                         background-color: #02a6b5;
+                        // background-color: #02a6b5;
                           width: 50%;
                           height: 100%;
+                           p{
+                           text-align: center;
+                            color: #fff;
+                        }
                    }
                 
         }
@@ -424,16 +449,14 @@
 
       .el-card{
         background-color: transparent;
-        border: 0;
-      }
       
+      }
+     
    li{
     list-style: none;
    }
 
-  
  
-  
        @keyframes rotate1{
         from{
           transform: translate(-50%,-50%) rotate(0deg);  

@@ -1,5 +1,6 @@
-<template>
-    <div>
+<template> 
+      <div>
+       
 <el-container>
            <el-aside style="width:auto height:100vh"><commom-aside/></el-aside>
     <el-container>
@@ -8,28 +9,30 @@
         <el-main><router-view></router-view></el-main>
     </el-container>
 </el-container>
+      
     </div>
+    
+  
+
 </template>
  
 <script>
+
 import CommomAside from "../components/CommomAside.vue"
 import CommomHeader from "../components/CommomHeader.vue"
 import commonTag from '@/components/commonTag'
     export default {
-        data() {
-            return {
-                property: 'value',
-            };
-        },
+    
         components: {
             CommomAside,
             CommomHeader,
-            commonTag
+            commonTag,
+          
         }
     }
 </script>
 <style lang="less" scoped>
-    
+   
     .el-container{
         height: 100vh;
     }
@@ -38,5 +41,6 @@ import commonTag from '@/components/commonTag'
     }.el-main{
         padding: 0;
     }
+   
 </style>
 

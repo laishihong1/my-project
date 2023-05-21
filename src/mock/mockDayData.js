@@ -4,7 +4,7 @@ const Mock=require('mockjs')
      const Array=[]
     for (let index = 0; index < 24; index++) {
         Array[index]=Mock.mock({
-             'time':Mock.Random.time('HH:mm:ss'),
+             'time':Mock.Random.now('day','yyyy-MM-dd HH:mm:ss'),
              'replyPeople':Mock.Random.natural( 1000, 10000 ),
              'onLinePeople':Mock.Random.natural( 1000, 10000 ),
        })  

@@ -10,7 +10,7 @@
       width="120">
     </el-table-column>
     <el-table-column
-      prop="onLinePeople"
+      prop="onlinePeople"
       label="在线人数"
       width="120">
     </el-table-column>
@@ -21,7 +21,7 @@
     </el-table-column>
      <el-table-column
       prop="waitTakePeople"
-      label="待服务处理人数">
+      label="待申请人数">
     </el-table-column>
   </el-table>
 
@@ -32,10 +32,17 @@
 </template>
 
 <script>
+import cookies from 'js-cookie';
+
   export default {
     data() {
       return {
-        tableData:[],
+        tableData:[
+          {waitTakePeople:''}
+        ],
+       waitTakePeoples:{
+          waitTakePeople:''
+       }
       }
     },
       mounted(){
@@ -43,10 +50,32 @@
       },
       methods:{
             init(){
-                      this.$axios.get('http://localhost:8080/text/textInfo').then((res)=>{
-                       this.tableData=res.data
-                })
-           },
+
+                   var loginData = JSON.parse(window.localStorage.getItem('param'))
+                   var Cookies=cookies.get('token')
+                   var userStatistics=JSON.parse(window.localStorage.getItem('userStatistics'));
+                    if(Cookies&&loginData&&userStatistics){
+        
+                      this.tableData=userStatistics.user_statistics;
+                   
+                      //Object.assign 对象拼接
+                      for(var i=0;i<this.tableData.length;i++){
+                         this.waitTakePeoples.waitTakePeople=(this.tableData[i].replyPeople-this.tableData[i].replyPassNumber)
+                        
+                         this.tableData[i]=Object.assign(this.tableData[i],this.waitTakePeoples)
+                       
+                      }
+                       
+                   
+                    }
+                   else{
+                      this.$axios.get('http://localhost:8081/text/textInfo').then((res)=>{
+                        this.tableData=res.data
+                     })
+                   }
+                    
+                    
+           },   
         
  }
 }
