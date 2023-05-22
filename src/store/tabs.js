@@ -12,8 +12,9 @@ export default{
                 url:'Home/Home'
                }
         ], 
-       // hidden:'block'
-       reigsterMark:0,
+        hidden:'none',
+        hideenStep:'block'
+     //  reigsterMark:0,
     },
     mutations:{
        
@@ -47,8 +48,12 @@ export default{
         },
        
         modifyMark(state,item){
-           state.reigsterMark=state.reigsterMark+item
-        } 
+           state.hidden=item
+        } ,
+        
+        modifyStep(state,item){
+            state.hideenStep=item
+        }
 
         //隐藏菜单栏
         //  hiddenTag(state,item){

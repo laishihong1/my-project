@@ -9,6 +9,7 @@ import User  from '../views/User.vue'
 import Page1 from '../views/Page1.vue'
 import Label from "../views/Label.vue"
 import Login from '@/views/Login'
+
 import register from '@/views/register.vue'
 
 
@@ -27,7 +28,8 @@ const router = new VueRouter({
   routes: [
     {path:'/',redirect:'/Login'},
     {path:'/Login',name:'login',component:Login},
-    {path:'/Register',name:'register',component:register},
+    {path:'/register',name:'register',component:register},
+    
     {
      path:'/Main',component: Main,redirect: '/Home',
       children: [
@@ -69,27 +71,13 @@ const router = new VueRouter({
       }
  })
 
-
-
-//   ////判断token是否存在 ,不存在直接跳转到登陆页面
-// //   if(to.name==='register'){
-// //      next({name:'register'})
-// //  }
-
-//    console.log("......")
-//      if(to.name==='login'){
-//       console.log("......")
-//        next({name:'login'})
-//      }
-    
-   
-// })
-
+ //push
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location, onResolve, onReject) {
     if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
     return originalPush.call(this, location).catch(err => err)
 }
+
 
 
 export default router

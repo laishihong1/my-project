@@ -1,7 +1,6 @@
 <!--这里创建一个vantajs的挂载区域-->
 <template>
     <div class="vanta_area" ref="Area">
-       <p>通讯录平台</p>
     </div>
 </template>
 
