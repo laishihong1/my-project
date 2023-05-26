@@ -1,7 +1,7 @@
 <!--这里创建一个vantajs的挂载区域-->
 <template>
     <div class="vanta_area" ref="Area">
-       <p>通讯录平台</p>
+      
     </div>
 </template>
 
@@ -25,14 +25,12 @@ export default {
             scale: 1.00,
             scaleMobile: 1.00,
             colorMode: "lerpGradient",
-            color1:Mock.Random.hex(),
-            color2:Mock.Random.hex(),
             birdSize: 1.30,
             wingSpan: 24.00,
             separation: 83.00,
             alignment: 5.00,
             cohesion: 14.00,
-            backgroundColor: Mock.Random.hex()
+           
         })
     },
     beforeDestroy(){
@@ -50,11 +48,6 @@ export default {
     width:100%;
     height:100%; 
     z-index: -1; 
-    p{
-       text-align:center;
-       color:#fff;
-       font-size:1.25rem;
-       top:70%  
-    }
+   
 }
 </style>

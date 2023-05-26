@@ -1,5 +1,5 @@
 <template>
-    <div class="tabs " :style="{display:this.$store.state.tabs.hidden}">
+    <div class="tabs ">
           <el-tag
             size="small"
             v-for="(item,index) in tags"
@@ -60,6 +60,7 @@ import {mapState} from 'vuex'
 
 <style lang="less" scoped>
      .tabs{
+      
         padding: 20px;
         .el-tag{
             margin-right: 20px;

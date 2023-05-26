@@ -1,6 +1,11 @@
 <template>
     <div class="reigster4">
-         <div><vantas-r></vantas-r></div>
+       
+         <keep-alive>
+           <component :is="currentView"></component>
+         </keep-alive>
+
+
          <div class="success">
               <div class="text">
              <h1>
@@ -28,10 +33,29 @@
 </template>
 
 <script>
+import vantas from '@/utils/vantas'
 import vantasR from '@/utils/vantasR'
     export default {
-        components:{
-              vantasR
+        data() {
+            return {
+                value1:this.$store.state.tabs.buttonSwitch,
+            };
+        },
+        created(){
+          this.$store.commit('modifyMark','none')
+        },
+         computed:{
+            currentView:function () {
+                      if(this.value1===true){
+                         return "vantas"
+                      }else {
+                          return "vantasR"
+                      }
+                }
+        },
+         components:{
+            vantasR,
+            vantas
         }
     }
 </script>
@@ -39,14 +63,10 @@ import vantasR from '@/utils/vantasR'
 <style lang="less" scoped>
         .reigster4{
               position: relative;
-         #vanta-r{
-             width: 100%;
-             height: 100%;
-            
-           }
+        
           .success{
                 position: relative;
-                height: 16.1rem;
+                height: 15.8rem;
                 .text{
       position: relative;
       top:6rem;

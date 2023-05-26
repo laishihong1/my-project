@@ -1,10 +1,19 @@
 <template>
     <div class="reigster2">
-        <div><vantas-r></vantas-r></div>
+
+          <keep-alive>
+           <component :is="currentView"></component>
+         </keep-alive>
+ 
+
         <div class="form">
               <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="账号" prop="replyAccount">
                 <el-input type="text" v-model="ruleForm.replyAccount" autocomplete="off" placeholder="请输入账号" minlength="8" maxlength="15" value="replyAccount"></el-input>
+            </el-form-item>
+
+             <el-form-item label="邮箱" prop="replyEmail">
+                <el-input type="text" v-model="ruleForm.replyEmail" autocomplete="off" placeholder="请输入邮箱" minlength="8" maxlength="20" value="replyAccount"></el-input>
             </el-form-item>
 
              <el-form-item label="密码" prop="replyPassword">
@@ -25,10 +34,14 @@
 </template>
 
 <script>
+
+import vantas from '@/utils/vantas'
 import vantasR from '@/utils/vantasR'
+
     export default {
         data() {
                 var reg_tel=/^(?=.*\d)(?=.*[A-Z|a-z])[a-zA-Z0-9]{8,15}$/ //密码(必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 8-10 之间)
+                 reg = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi; //邮箱格式验证
                 var validateAccount = (rule, value, callback) => {
                 if (value === '') {
                 callback(new Error('请输入账号'));
@@ -56,6 +69,7 @@ import vantasR from '@/utils/vantasR'
                 callback();
                 }
             };
+               
               var checPassword = (rule, value, callback) => {
                 if (value === '') {
                 callback(new Error('请再次输入密码'));
@@ -65,11 +79,27 @@ import vantasR from '@/utils/vantasR'
                  callback();
                 }
              };
+               
+              var validateEmail=(rule,value,callback)=>{
+                   if(value===''){
+                      callback(new Error('请输入你的邮箱'));
+                   }
+                    else if(!reg.test(value)){
+                      callback(new Error('邮箱格式不正确'));
+                    }
+                   else{
+                     callback();
+                   }
+              }
+              
             return {
+                   value1:this.$store.state.tabs.buttonSwitch,
                  ruleForm: {
                     replyAccount: '',
                     replyPassword: '',
+                    replyEmail:'',
                     checkreplyPassword: ''
+                    
                 },
                  rules: {
                     replyAccount: [
@@ -77,6 +107,9 @@ import vantasR from '@/utils/vantasR'
                     ],
                     replyPassword: [
                         { validator: validateReplyPassword, trigger: 'blur' }
+                    ],
+                    replyEmail:[
+                        {validator: validateEmail, trigger:' blur' }
                     ],
                     checkreplyPassword: [
                         { validator: checPassword, trigger: 'blur' }
@@ -103,18 +136,22 @@ import vantasR from '@/utils/vantasR'
                         if (valid) {
                             var replyAccount=JSON.parse(window.localStorage.getItem('replyAccount'))
                             var replyPassword=JSON.parse(window.localStorage.getItem('replyPassword'))
-                            
-                            if(!replyAccount&&!replyPassword){
+                            var replyEmail=JSON.parse(window.localStorage.getItem('replyEmail'))
+
+                            if(!replyAccount&&!replyPassword&&replyEmail){
                                 window.localStorage.setItem('replyAccount',JSON.stringify(this.ruleForm.replyAccount))
                                 window.localStorage.setItem('replyPassword',JSON.stringify(this.ruleForm.replyPassword))
+                                window.localStorage.setItem('replyEmail',JSON.stringify(this.ruleForm.replyEmail))
                                   this.$store.commit('modifyMark','inline-block')
                                  this.$message.success('请点击下一步继续注册')
                             }else{
 
-                                localStorage.removeItem('replyAccount');
-                                localStorage.removeItem('replyPassword');
+                                localStorage.clear()
+
                                 window.localStorage.setItem('replyAccount',JSON.stringify(this.ruleForm.replyAccount))
                                 window.localStorage.setItem('replyPassword',JSON.stringify(this.ruleForm.replyPassword))
+                                window.localStorage.setItem('replyEmail',JSON.stringify(this.ruleForm.replyEmail))
+                                
                                 this.$store.commit('modifyMark','inline-block')
                                 this.$message.success('请点击下一步继续注册')
                             }
@@ -130,8 +167,18 @@ import vantasR from '@/utils/vantasR'
                     },
                   
            },
-             components:{
-            vantasR
+            computed:{
+            currentView:function () {
+                      if(this.value1===true){
+                         return "vantas"
+                      }else{
+                          return "vantasR"
+                      }
+                }
+        },
+        components:{
+            vantasR,
+            vantas
         }
   }
     
@@ -140,11 +187,7 @@ import vantasR from '@/utils/vantasR'
 <style lang="less" scoped>
      .reigster2{
         position: relative;
-         #vanta-r{
-             width: 100%;
-             height: 100%;
-            
-           }
+        
            .form{
                position: relative;
                 height: 16.1rem;

@@ -1,11 +1,15 @@
 <template>
     <div>
     
-      <div class="app-container">
+      <div class="app-container"  
+         v-loading='loading'
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+      >
 
         <div class="box">
 
-            <div class="filter-container" style="left:0.5rem">
+            <div class="filter-container" style="left:0.5rem; position: relative;">
                 <el-input placeholder="请输入账号" v-model=" pagination.userAccount" style="width: 200px; margin-right:20px" class="filter-item"></el-input>
                 <el-input placeholder="请输入用户名" v-model=" pagination.userName" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
                   <el-input placeholder="请输入上次登陆地点" v-model=" pagination.userLocation" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
@@ -13,7 +17,10 @@
                
             </div>
 
-            <el-table size="small" current-row-key="id" :data="dataList" stripe highlight-current-row>
+            <el-table size="small" 
+            current-row-key="id" 
+            :data="dataList" 
+            stripe highlight-current-row>
 
                 <el-table-column prop="userAccount" align="center" label="用户账号"></el-table-column>
 
@@ -31,10 +38,11 @@
 
                     <template slot-scope="scope">
 
-                        <el-button type="primary" size="mini" @click="handleUpdate(scope.$index,scope.row)">编辑</el-button>
-
-                        <el-button type="danger" size="mini" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
-
+                     
+                        <el-button type="primary" size="mini" @click="handleLogoff(scope.$index,scope.row)" slot="reference">下线</el-button>
+                       
+                         <el-button type="danger" size="mini" @click="handleDelete(scope.$index,scope.row)" slot="reference">删除</el-button>
+                      
                     </template>
 
                 </el-table-column>
@@ -102,6 +110,9 @@
     export default {
          data() {
             return {
+                  
+            loading: true,  //加载标识，false 为 去掉加载标签
+            timer:null, //定时器名称
             dataList: [],//当前页要展示的列表数据
             dialogFormVisible: false,//添加表单是否可见
             dialogFormVisible4Edit:false,//编辑表单是否可见
@@ -129,7 +140,12 @@
           //钩子函数，VUE对象初始化完成后自动执行-->
           mounted() {
             //调用查询全部数据的操作-->
+
             this.getAll();
+           
+              this.timer = setInterval(() => {
+                    setTimeout(this.getAll(), 0)
+                }, 1000*60) //十分钟刷新
         },
        methods: {
             //列表
@@ -138,13 +154,15 @@
               
 
                 this.$axios.get("http://localhost:8080/user/userAll/"+this.pagination.currentPage+"/"+this.pagination.pageSize).then((res)=>{
-                   console.log(res.data)
+                //   console.log(res.data)
                    if(res.data.flag){
                       
                        this.dataList=res.data.data
-                     this.pagination.total=res.data.data.length
+                       this.pagination.total=res.data.data.length
+                       this.loading=false
                     } else{
                         this.$message.error('当前返回数据异常')
+                        this.loading=false
                     }
                    
                 })
@@ -153,6 +171,7 @@
                      this.$axios.get("http://localhost:8080/text/comManage/").then((res)=>{
                      this.dataList = res.data;
                      this.pagination.total=res.data.length
+                     this.loading=false
                 })
                 })
             },
@@ -171,8 +190,10 @@
                      if(res.data.flag){
                      this.dataList=res.data.data
                      this.pagination.total=res.data.data.length
+                     this.loading=false
                      }else{
                         this.$message.error('当前查询异常')
+                        this.loading=false
                      }
                      
                 });
@@ -209,7 +230,7 @@
             //
             // 删除
             handleDelete(row) {
-                // console.log(row);
+              
                 this.$confirm("此操作永久删除当前信息，是否继续？","提示",{type:"info"}).then(()=>{
                     this.$axios.delete("http://localhost:8080/stsimpleUser/deleteReplyUser/"+row.id).then((res)=>{
                         if(res.data.flag){
@@ -226,39 +247,35 @@
                 });
             },
 
-            
-            // handleUpDate(row){
-            //      this.handleCreate();
-            //      this.formData.id=row.id
-            //      this.formData.userAccount=row.userAccount
-            //      this.formData.mark=row.mark
-            // },
+        // 下线
+            handleLogoff(row){
+               this.$confirm("是否下线当前用户，是否继续？","提示",{type:"info"}).then(()=>{
+                    this.$axios.delete("http://localhost:8080/stsimpleUser/deleteReplyUser/"+row.id).then((res)=>{
+                        if(res.data.flag){
+                            this.$message.success("用户已下线");
+                        }else{
+                            this.$message.error("操作异常");
+                        }
+                    }).finally(()=>{
+                        //2.重新加载数据
+                        this.getAll();
+                    });
+                }).catch(()=>{
+                    this.$message.info("取消操作");
+                });
+           }
+     
 
-            //  //修改
 
-            // handleEdit(row) {
-            //      if(this.formData.userAccount===row.userAccount&&this.formData.mark==row.mark){
-            //         this.$message.error('当前你未作出任何修改')
-            //      }else if(this.formData.userAccount===''||this.formData.mark===''){
-            //         this.$message.error('请确认是否全部填写')
-            //      }else{
-            //         this.$axios.put("http://localhost:8080/students",this.formData).then((res)=>{
-            //         if(res.data.flag){
-            //             this.$message.success('编辑成功')
-            //         }
-            //         else{
-            //             this.$$message.error('操作异常')
-            //         }
-            //         }).finally(()=>{
-            //             //2.重新加载数据
-            //             this.getAll();
-            //         });
-            //      }
-                
-            // },
+
+
         },
          
-
+         //清除定时器
+    beforeDestroy(){
+     clearInterval(this.timer);        
+     this.timer = null;
+}
 
    }
 </script>
@@ -268,6 +285,7 @@
       position: absolute;
       margin-top: 10px;
        right: 20px;
+      
   }
  
 </style>

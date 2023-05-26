@@ -1,6 +1,12 @@
 <template>
     <div class='register1'>
-           <div><vantas-r></vantas-r></div>
+
+        <keep-alive>
+           <component :is="currentView"></component>
+         </keep-alive>
+        
+    
+           <!-- <div><vantas-r></vantas-r></div> -->
            <div class='form'>
                         <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
                 
@@ -22,11 +28,12 @@
 </template>
 
 <script>
+import vantas from '@/utils/vantas'
 import vantasR from '@/utils/vantasR'
     export default {
         data() {
  
-              var reg_tel = new RegExp("^1[356789]\\d{9}$"); 
+              var reg_tel = new RegExp("^1[356789]\\d{9}$");  //手机号码验证
 
                var validatePass = (rule, value, callback) => {
                 if (value === '') {
@@ -56,6 +63,7 @@ import vantasR from '@/utils/vantasR'
             };
            
             return{
+                    value1:this.$store.state.tabs.buttonSwitch,
             ruleForm: {     //表单验证
                     numberPhone: '',
                     checknumberPhone: '',
@@ -82,6 +90,10 @@ import vantasR from '@/utils/vantasR'
                     this.ruleForm.checknumberPhone=numberPhone
                 }
             },
+             changeStatus(callback){
+                   console.log(callback)
+                   this.$store.commit('modifySwitch',callback)
+             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                 if (valid) {
@@ -109,21 +121,28 @@ import vantasR from '@/utils/vantasR'
             }
         },
         components:{
-            vantasR
-        }
+              vantas,
+            vantasR,
+        },
+         computed:{
+            currentView:function () {
+                      if(this.value1===true){
+                         return "vantas"
+                      }else{
+                          return "vantasR"
+                      }
+                }
+        },
     }
 </script>
 
 <style lang="less" scoped>
      .register1{
         position: relative;
-         #vanta-r{
-             width: 100%;
-             height: 100%;
-            
-           }
+         
+       
         .form{
-           // display: inline-block;
+         
             position: relative;
              height: 16.1rem;
               .el-form{

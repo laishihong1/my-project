@@ -2,7 +2,7 @@ export default{
     state:{
         isCollapse:false, //控制菜单的展开和收
         icon:'fold',
-       // component:0,
+     
         tabList:[
             {
                 path:'/Home',
@@ -12,9 +12,12 @@ export default{
                 url:'Home/Home'
                }
         ], 
-        hidden:'none',
-        hideenStep:'block'
-     //  reigsterMark:0,
+     
+        hidden:'none',       // 步骤条隐藏
+        buttonSwitch:false,    //默认选中默认页面
+        headerboxShadow:'0px 20px 10px rgba(0, 0, 0,0.4)',  //注册页面头，上阴影
+        footerboxShadow:'0px -20px 10px rgba(0,0,0,0.4)' //注册页面低，下阴影
+   
     },
     mutations:{
        
@@ -26,7 +29,8 @@ export default{
             state.icon='unfold'
           }
         },
-        //更新面包屑数据
+        
+        //更新User面包屑数据
         selectMenu(state,val){
             if(val.name!==state.tabList.name){
               const index=state.tabList.findIndex(item=>item.name===val.name)
@@ -36,24 +40,25 @@ export default{
               }
             }
         },
+         
         closeTag(state,item){
-              
                 const index= state.tabList.findIndex(val=>val.name===item.name)
                 state.tabList.splice(index,1)
-  
-        },
-        user_stat(state){
-        //  console.log(state.user_statistics)
-          state.user_statistics=JSON.parse(window.localStorage.getItem('userStatistics'))
         },
        
         modifyMark(state,item){
            state.hidden=item
         } ,
         
-        modifyStep(state,item){
-            state.hideenStep=item
-        }
+        modifySwitch(state,item){
+           //console.log(item)
+              state.buttonSwitch=item
+          // console.log(state.buttonSwitch)   
+        },
+       modifyShadow(state,item1,item2){
+           state.headerboxShadow=item1
+           state.footerboxShadow=item2
+       }
 
         //隐藏菜单栏
         //  hiddenTag(state,item){

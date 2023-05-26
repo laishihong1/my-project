@@ -1,6 +1,13 @@
 <template>
       <div class="reigster3">
-         <div><vantas-r></vantas-r></div>
+       
+         <keep-alive>
+           <component :is="currentView"></component>
+         </keep-alive>
+
+ 
+
+
          <div class="form">
            <div class="text">
               <p>请写下你注册的理由</p>
@@ -24,9 +31,11 @@
 </template>
 
 <script>
+import vantas from '@/utils/vantas'
 import vantasR from '@/utils/vantasR'
     export default {
         data() {
+
           var validateText=(rule, value, callback)=>{
               if(value===''){
                 callback(new Error('请输入内容......'));
@@ -38,6 +47,7 @@ import vantasR from '@/utils/vantasR'
             }
           };
     return {
+          value1:this.$store.state.tabs.buttonSwitch,
        rules:{
          textarea:[
           { validator: validateText, trigger: 'blur'}
@@ -75,6 +85,7 @@ import vantasR from '@/utils/vantasR'
                  this.$message.success('还差一步了，快完成完成注册了,请点击下一步')
            } 
      },
+     
       validateTag: function (item) {
 			var reg = /^[\u0391-\uFFE5A-Za-z]+$/;
 			if (reg.test(item)) {
@@ -88,8 +99,18 @@ import vantasR from '@/utils/vantasR'
      
       }
     },
+     computed:{
+            currentView:function () {
+                      if(this.value1===true){
+                         return "vantas"
+                      }else{
+                          return "vantasR"
+                      }
+                }
+        },
      components:{
-            vantasR
+            vantasR,
+            vantas
         }
  
   }
@@ -99,11 +120,7 @@ import vantasR from '@/utils/vantasR'
 <style lang="less" scoped>
      .reigster3{
          position: relative;
-         #vanta-r{
-             width: 100%;
-             height: 100%;
-            
-           }
+      
            .form{
              position: relative;
                 height: 16.1rem;

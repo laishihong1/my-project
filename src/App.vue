@@ -39,7 +39,17 @@ nav {
   }
 }
 
-
+/**修改全局的滚动条*/
+/**滚动条的宽度*/
+::-webkit-scrollbar {
+  width: 8px; 
+ 
+}
+//滚动条的滑块
+::-webkit-scrollbar-thumb {
+  background-color: #d1d4da;
+  border-radius: 4px;
+}
 
 
 

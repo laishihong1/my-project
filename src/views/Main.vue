@@ -18,16 +18,16 @@
  
 <script>
 
-import CommomAside from "../components/CommomAside.vue"
-import CommomHeader from "../components/CommomHeader.vue"
-import commonTag from '@/components/commonTag'
+import CommomAside from '@/components/mainComponents/CommomAside'
+import CommomHeader from '@/components/mainComponents/CommomHeader'
+import commonTag from '@/components/mainComponents/commonTag'
+
     export default {
     
         components: {
             CommomAside,
             CommomHeader,
-            commonTag,
-          
+            commonTag
         }
     }
 </script>

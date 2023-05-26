@@ -7,10 +7,15 @@ import Mail  from '../views/Mail.vue'
 import Home  from '../views/Home.vue'
 import User  from '../views/User.vue'
 import Page1 from '../views/Page1.vue'
+import userMessage from '../components/userMessage/userIntroduce.vue'
+import userRevise from '@/components/userMessage/userRevise'
+
 import Label from "../views/Label.vue"
 import Login from '@/views/Login'
-
 import register from '@/views/register.vue'
+
+
+
 
 
 import maps from '@/components/echart/Label/maps'
@@ -36,7 +41,12 @@ const router = new VueRouter({
         {path:'/Mail' ,name:'mail' ,component: Mail },
         {path:'/Home' ,name:'home' ,component: Home },
         {path:'/User' ,name:'user' ,component: User },
-        {path:'/Page1',name:'page1',component: Page1},
+        {path:'/Page1',name:'page1',component: Page1,redirect:'/userMessage',
+          children:[
+               {path:'/userMessage',name:'userMessage',component:userMessage},
+               {path:'/revise',name:'revise',component:userRevise}
+          ]
+        },
         {path:'/Label',name:'label',component: Label},
       ]
     },

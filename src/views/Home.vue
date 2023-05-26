@@ -1,6 +1,11 @@
 <template>
  
-       <div class="contianer">
+       <div class="contianer" v-loading="loading"
+        element-loading-text="拼命加载中"
+        element-loading-spinner="el-icon-loading"
+      
+       >
+      
         <el-row>
                 <el-col :span="8"  style="padding-right:10px">
                     <el-card class="box-card">
@@ -58,10 +63,11 @@
 </template>
 <script>
  
-   import lineChart from '@/components/echart/lineChart'
-   import pieChart from '@/components/echart/pieChart'
-   import columnChart from '@/components/echart/columnChart'
-   import countTable from '@/components/table/countTable'
+  import lineChart from '@/components/echart/table/lineChart'
+  import pieChart from '@/components/echart/table/pieChart'
+  import columnChart from '@/components/echart/table/columnChart'
+  import countTable from '@/components/echart/table/countTable'
+
    import Cookies from 'js-cookie';
     export default {
     
@@ -69,10 +75,15 @@
             
           return {
              loading:true,
+             timer:null, //定时器名称
+
+             
                src:'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
                data:{
-                  totalReplyPassNumber:'',
-                  totalReplyNumber:'',
+
+                  totalReplyPassNumber:'',  //统计今年通过总人数
+                  totalReplyNumber:'',      //统计今年注册人数
+
                },
             accountData:[
               {
@@ -124,27 +135,32 @@
            countTable,
           
          },
-           mounted(){
-                window.setTimeout(()=> { this.loading = false })
-                this.init()
-           },
+         created(){
+              this.loading=true
+               this.init()
+                 this.timer = setInterval(() => {
+                    localStorage.removeItem('userSingleData')
+                    localStorage.removeItem('userStatistics')
+                    setTimeout(this.init(), 0)
+                }, 1000*60) //十分钟刷新
+         },
          
          methods:{
            init(){
+          
                   var loginData = JSON.parse(window.localStorage.getItem('param'))
                   var cookies=Cookies.get('token')
                    if(loginData&&cookies){
+    
+                              //判断是否有用户信息 userSingleData
+                              //是否有所有控件使用的信息 userStatistics
+                      var userSingleData=JSON.parse(window.localStorage.getItem('userSingleData'));
+                      var userStatistics=JSON.parse(window.localStorage.getItem('userStatistics'));
 
-                      var param={
-                            Account:loginData.username,
-                            Password:loginData.password
-                      }
-                              
-                          var userSingleData=JSON.parse(window.localStorage.getItem('userSingleData'));
-                          var userStatistics=JSON.parse(window.localStorage.getItem('userStatistics'));
                           if(userSingleData){
+
                             this.user=userSingleData;
-                          
+                           
                               if(userStatistics){
                                 
                                   this.Month(userStatistics.user_statistics)
@@ -152,39 +168,61 @@
                                   this.data.totalReplyNumber=userStatistics.totalReplyNumber;
                                   this.data.totalReplyPassNumber=userStatistics.totalReplyPassNumber
                                   this.AccountData()  
-                                  // this.$store.commit('user_stat') //返回home 页面的所有所需数据
-                                  
+                                  this.loading=false
                                 } 
                                 else{
                                       this.$axios.get("http://localhost:8080/user/user_statistics").then(res=>{
+
+                                      window.localStorage.setItem('userStatistics',JSON.stringify(res.data.data))
+                                      
+                                      this.Month(res.data.data.user_statistics)  
+
+                                      this.data.totalReplyNumber=res.data.data.totalReplyNumber;
+                                      this.data.totalReplyPassNumber=res.data.data.totalReplyPassNumber
+                                     
+                                      this.AccountData()
+                                      this.loading=false
+                                })
+                                }
+                          }
+                          else{
+                                var param={
+                                replyAccount:loginData.account,
+                                replyPassword:loginData.password
+                              }
+                              this.$axios.post("http://localhost:8080/simpleUser",param).then(res=>{
+                                    
+                                      this.user=res.data.data; //返回单用户数据
+                                      window.localStorage.setItem('userSingleData',JSON.stringify(this.user)) 
+                                
+                                  this.$axios.get("http://localhost:8080/user/user_statistics").then(res=>{
                                       
                                       window.localStorage.setItem('userStatistics',JSON.stringify(res.data.data))
                                       this.Month(res.data.data.user_statistics)  
                                       this.data.totalReplyNumber=res.data.data.totalReplyNumber;
                                       this.data.totalReplyPassNumber=res.data.data.totalReplyPassNumber
                                       this.AccountData()
-                                      // this.$store.commit('user_stat') //返回home 页面的所有所需数据
+                                      this.loading=false
                                 })
-                                }
-                          }
-                          else{
-                              this.$axios.post("http://localhost:8080/simpleUser",param).then(res=>{
-                                    //  console.log(res.data.data)
-                                      this.user=res.data.data; //返回单用户数据
-                                      window.localStorage.setItem('userSingleData',JSON.stringify(this.user)) 
+
+
+
                               })
                               .catch(error=>{
+                                window.localStorage.clear()
+
                                 this.$message.warning('当前服务器出错，数据为模拟数据')
                             
                                 this.$axios.post("http://localhost:8081/text/user").then(res=>{
                                 
                                       this.user=res.data.data
-                      
+                                      
                                     })
                                 this.$axios.get('http://localhost:8081/text/UserNumber').then(res=>{
                                       console.log(res.data)
                                       this.Month(res.data)
                                       this.AccountData()    
+                                      this.loading=false
                                 })    
                               })
                           }    
@@ -197,21 +235,22 @@
                     this.$axios.get('http://localhost:8081/text/UserNumber').then(res=>{
                       
                           this.Month(res.data)
-                          this.AccountData()    
+                          this.AccountData()   
+                         this.loading=false
                     })    
               }
                     
             },
            fontSize(res){
-           let docEl = document.documentElement,
-            clientWidth =
-            window.innerWidth ||
-            document.documentElement.clientWidth ||
-            document.body.clientWidth;
-              if (!clientWidth) return;
-            
-              let fontSize = clientWidth / 2600;
-              return res * fontSize;
+            let docEl = document.documentElement,
+              clientWidth =
+              window.innerWidth ||
+              document.documentElement.clientWidth ||
+              document.body.clientWidth;
+                if (!clientWidth) return;
+              
+                let fontSize = clientWidth / 2600;
+                return res * fontSize;
             },  
                 Month:function(item){
                     let nowDate = new Date();
@@ -231,10 +270,13 @@
                   this.accountData[3].value=this.data.failedReplyNumber;
                   this.accountData[4].value=this.data.totalReplyNumber;
                   this.accountData[5].value=this.data.totalReplyPassNumber;
-              } 
-       
-    },
-    
+              } ,
+
+   },
+    beforeDestroy(){
+     clearInterval(this.timer);        
+     this.timer = null;
+}
     
   }
    </script>

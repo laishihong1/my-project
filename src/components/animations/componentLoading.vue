@@ -28,8 +28,8 @@
 
 
 <style lang="less" scoped>
-/** just copy and paste this entire code in your stylesheet **/
-@import url('https://fonts.googleapis.com/css?family=Roboto:100');
+
+// @import url('https://fonts.googleapis.com/css?family=Roboto:100');
 body {
   background: #eee;
 }
@@ -78,14 +78,6 @@ body {
   }
 }
 
-// .lt {
-//   color: black;
-//   font-family: 'Roboto', sans-serif;
-//   margin: 30px auto;
-//   text-align: center;
-//   font-weight: 100;
-//   letter-spacing: 10px;
-// }
 
   .text{
       position: relative;
@@ -176,5 +168,8 @@ body {
             }
         }
    }
+
+
+
 
 </style>

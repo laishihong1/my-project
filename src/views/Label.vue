@@ -208,6 +208,7 @@
         line-height: 0.53rem;
         font-size: .45rem;
         text-align: center;
+        margin: 10px;
       }
       .showTime{
           position: absolute;

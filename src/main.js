@@ -32,6 +32,11 @@ import echarts from '@/utils/echart';
 Vue.prototype.$echarts = echarts
 
 
+// 导入腾讯地图，获取用户当前位置
+import { VueJsonp } from 'vue-jsonp';
+Vue.prototype.$jsonp = VueJsonp
+Vue.use(VueJsonp)
+
 Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false

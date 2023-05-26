@@ -1,7 +1,7 @@
 <template>
     <div >
      
- <el-menu default-active="1-4-1"
+ <el-menu default-active="home"
             class="el-menu-vertical-demo" 
             @open="handleOpen" 
             @close="handleClose" 
@@ -96,19 +96,19 @@ export default {
             {
             path:'/Label',
             name:'label',
-            label:'可视化管理',
+            label:'可视化平台',
             icon:'s-data',
             url:'LabelManage/LabelManage'
            },
            {
-            label:'其它',
-            icon:'location',
+            label:'个人',
+            icon:'user-solid',
             children:[
               {
                 path:'/Page1',
                 name:'page1',
-                label:'页面1',
-                icon:'setting',
+                label:'个人中心',
+                icon:'solid',
                 url:'Other/PageOne'
               }
             ]

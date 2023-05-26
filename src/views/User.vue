@@ -1,6 +1,9 @@
 <template>
-    <div class="User">
-       <div class="filter-container">
+    <div class="User" v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+    >
+       <div class="filter-container" style="left:0.5rem; position: relative;">
                 <el-input placeholder="请输入账号" v-model=" pagination.userAccount" style="width: 200px; margin-right:20px" class="filter-item"></el-input>
                 <el-input placeholder="请输入密码" v-model=" pagination.userPassword" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
                 <el-input placeholder="请输入电话号码" v-model=" pagination.numberPhone" style="width: 200px;margin-right:20px" class="filter-item"></el-input>
@@ -85,6 +88,9 @@
   export default {
     data() {
       return {
+      loading:true,  
+      timer:null, //定时器名称
+
         tableData: [],
         search: '',
           dialogFormVisible: false,//添加表单是否可见
@@ -100,8 +106,11 @@
            
       }
     },
-      created(){
+      mounted(){
              this.init()
+              this.timer = setInterval(() => {
+                    setTimeout(this.init(), 0)
+            }, 1000*60) //十分钟刷新
     },
 
     methods: {
@@ -110,18 +119,21 @@
 
          this.$axios.get("http://localhost:8080/user/userReplyAll/"+this.pagination.currentPage+"/"+this.pagination.pageSize).then(res=>{
                 if(res.data.flag){
-                  console.log(res.data.data)
+                 // console.log(res.data.data)
                    this.tableData=res.data.data
-                   console.log(this.tableData)
+                 //  console.log(this.tableData)
+                 this.loading=false
                 }
                  else{
                     this.$$message.error('当前返回数据异常');
+                    this.loading=false
                  }
             
             }).catch(error=>{
                     this.$message.warning('当前服务器不在线,数据为模拟数据')
                     this.$axios.get('http://localhost:8081/text/reply').then(res=>{
                       this.tableData=res.data
+                      this.loading=false
                 })
             })
       },
@@ -140,9 +152,11 @@
                      if(res.data.flag){  
                      this.tableData=res.data.data
                      this.pagination.total=res.data.data.length
-                     console.log(this.tableData)
+                     this.loading=false
+                    // console.log(this.tableData)
                      }else{
                         this.$message.error('当前查询异常')
+                        this.loading=false
                      }
                      
                 });
@@ -191,7 +205,6 @@
             this.pagination.total=item.length
       },
 
- 
       // //切换页码
       handleCurrentChange(currentPage) {
           //修改页码值为当前选中的页码值
@@ -202,7 +215,10 @@
 
            
         },
-
+    beforeDestroy(){
+     clearInterval(this.timer);        
+     this.timer = null;
+}
     }
 
 </script>
@@ -211,7 +227,6 @@
          position: relative;
          width: 100%;
          height: 100%;
-        // overflow: hidden;
          .pagination-container{
             position: relative;
             display: flex;
